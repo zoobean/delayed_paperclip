@@ -17,6 +17,7 @@ module DelayedPaperclip
     def self.insert
       ActiveRecord::Base.send(:include, DelayedPaperclip::Glue)
       Paperclip::Attachment.send(:include, DelayedPaperclip::Attachment)
+      Paperclip::UrlGenerator.send(:include, DelayedPaperclip::UrlGenerator)
     end
   end
 end
