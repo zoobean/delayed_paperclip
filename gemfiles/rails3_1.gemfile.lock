@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/maguilar/code/data-engineering/vendor/plugins/delayed_paperclip
+  remote: /home/jrg/code/delayed_paperclip
   specs:
     delayed_paperclip (2.4.5.1)
       paperclip (>= 2.4.5)

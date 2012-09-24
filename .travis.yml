@@ -4,7 +4,16 @@ rvm:
   - ree
   - rbx-19mode
 
+services:
+  - redis
+
 script: "bundle exec rake clean test"
+
+notifications:
+  email:
+    - james@jamesrgifford.com
+
+
 gemfile:
   - gemfiles/rails2.gemfile
   - gemfiles/rails3.gemfile
