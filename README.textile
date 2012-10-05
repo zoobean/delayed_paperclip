@@ -12,21 +12,14 @@ h2. Installation
 
 Install the gem:
 
-<pre><code>sudo gem install delayed_paperclip</code></pre>
+<pre><code>gem install delayed_paperclip</code></pre>
 
-Add it to your environment.rb:
+Or even better, add it to your Gemfile.
 
-<pre><code>config.gem 'delayed_paperclip'</code></pre>
-
-Or, even better, to your Gemfile:
-
-<pre><code>source "http://gemcutter.org"
+<pre><code>source "https://rubygems.org"
 gem 'delayed_paperclip'
 </code></pre>
 
-Or install as a rails plugin:
-
-<pre><code>script/plugin install git://github.com/jstorimer/delayed_paperclip.git</code></pre>
 
 Dependencies:
 * Paperclip
