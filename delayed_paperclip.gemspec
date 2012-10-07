@@ -8,13 +8,13 @@ end.flatten
 
 spec = Gem::Specification.new do |s|
   s.name        = %q{delayed_paperclip}
-  s.version     = "2.4.5.1"
+  s.version     = "2.4.5.2"
 
-  s.authors     = ["Jesse Storimer", "Bert Goethals"]
+  s.authors     = ["Jesse Storimer", "Bert Goethals", "James Gifford"]
   s.summary     = %q{Process your Paperclip attachments in the background.}
   s.description = %q{Process your Paperclip attachments in the background with delayed_job, Resque or your own processor.}
-  s.email       = %q{jesse@jstorimer.com}
-  s.homepage    = %q{http://github.com/jstorimer/delayed_paperclip}
+  s.email       = %q{james@jamesrgifford.com}
+  s.homepage    = %q{http://github.com/jrgifford/delayed_paperclip}
 
   s.files             = include_files - exclude_files
 
