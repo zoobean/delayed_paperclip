@@ -2,7 +2,7 @@
 
 source "http://rubygems.org"
 
-gem "paperclip", "~>2.7"
+gem "paperclip", "~> 3.3.0"
 gem "appraisal"
 gem "mocha"
 gem "sqlite3"
