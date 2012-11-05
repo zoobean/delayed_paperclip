@@ -1,7 +1,7 @@
 PATH
   remote: /home/jrg/code/delayed_paperclip
   specs:
-    delayed_paperclip (2.4.5.2)
+    delayed_paperclip (2.5.0.1)
       paperclip (>= 3.3.0)
 
 GEM
