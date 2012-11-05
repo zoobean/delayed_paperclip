@@ -145,7 +145,7 @@ module BaseDelayedPaperclipTest
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
     dummy.save!
     process_jobs
-    dummy.update_attributes(:name => "hi")
+    dummy.name = "foobar123"
   end
 
 end
