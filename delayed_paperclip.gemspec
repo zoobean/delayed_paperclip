@@ -8,7 +8,7 @@ end.flatten
 
 spec = Gem::Specification.new do |s|
   s.name        = %q{delayed_paperclip}
-  s.version     = "2.5.0.1"
+  s.version     = "2.5.1.0"
 
   s.authors     = ["Jesse Storimer", "Bert Goethals", "James Gifford"]
   s.summary     = %q{Process your Paperclip attachments in the background.}
