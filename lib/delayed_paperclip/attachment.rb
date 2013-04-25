@@ -8,6 +8,7 @@ module DelayedPaperclip
       base.alias_method_chain :post_processing=, :delay
       base.alias_method_chain :save, :prepare_enqueueing
       base.alias_method_chain :after_flush_writes, :processing
+      base.alias_method_chain :reprocess!, :save_options
     end
 
     module InstanceMethods
@@ -36,11 +37,19 @@ module DelayedPaperclip
         @instance.send(:"#{@name}_processing?")
       end
 
+      # Take direct styles from reprocess!
+      # Use delayed_options if direct argument does not exist
       def process_delayed!
         self.job_is_processing = true
         self.post_processing = true
         reprocess!(*delayed_options[:only_process])
+        reset_only_process unless @@saved_only_process.nil?
         self.job_is_processing = false
+      end
+
+      def reset_only_process
+        @instance.class.attachment_definitions[@name][:delayed][:only_process] = @@saved_only_process
+        @@saved_only_process = nil
       end
 
       def after_flush_writes_with_processing(*args)
@@ -57,11 +66,22 @@ module DelayedPaperclip
 
       def save_with_prepare_enqueueing
         was_dirty = @dirty
+
         save_without_prepare_enqueueing.tap do
           if delay_processing? && was_dirty
             instance.prepare_enqueueing_for name
           end
         end
+      end
+
+      def reprocess_with_save_options!(*style_args)
+
+        unless caller.collect {|c| c[/`([^']*)'/, 1]}.include?("process_delayed!")
+          @@saved_only_process = delayed_options[:only_process]
+          @instance.class.attachment_definitions[@name][:delayed][:only_process] = style_args
+        end
+
+        reprocess_without_save_options!(*style_args)
       end
 
     end

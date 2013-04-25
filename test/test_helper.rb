@@ -5,6 +5,7 @@ require 'active_record'
 require 'logger'
 require 'sqlite3'
 require 'paperclip/railtie'
+require 'debugger'
 
 Paperclip::Railtie.insert
 

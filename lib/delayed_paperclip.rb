@@ -83,6 +83,7 @@ module DelayedPaperclip
     # then create
     def enqueue_delayed_processing
       mark_enqueue_delayed_processing
+
       (@_enqued_for_processing || []).each do |name|
         enqueue_post_processing_for(name)
       end
@@ -100,6 +101,7 @@ module DelayedPaperclip
         @_enqued_for_processing_with_processing ||= []
         @_enqued_for_processing_with_processing << name
       end
+
       @_enqued_for_processing ||= []
       @_enqued_for_processing << name
     end
