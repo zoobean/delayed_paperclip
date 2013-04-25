@@ -15,5 +15,3 @@ gem "delayed_job_active_record", :require => false
 
 gem "resque",       :require => false
 gem 'sidekiq',      :require => false
-
-gem 'debugger'
