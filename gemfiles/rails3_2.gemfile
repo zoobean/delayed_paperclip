@@ -11,6 +11,7 @@ gem "delayed_job", :require=>false
 gem "delayed_job_active_record", :require=>false
 gem "resque", :require=>false
 gem "sidekiq", :require=>false
+gem "debugger"
 gem "rails", "~> 3.2.8"
 
 gemspec :path=>"../"
