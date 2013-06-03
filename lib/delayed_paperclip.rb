@@ -56,7 +56,12 @@ module DelayedPaperclip
         :url_with_processing => DelayedPaperclip.options[:url_with_processing],
         :processing_image_url => options[:processing_image_url]
       }.each do |option, default|
-        attachment_definitions[name][:delayed][option] = options.key?(option) ? options[option] : default
+
+        attachment_definitions[name][:delayed][option] = if options.key?(option)
+          options[option].respond_to?(:call) ? options[option].call : options[option]
+        else
+          default
+        end
       end
 
       if respond_to?(:after_commit)
