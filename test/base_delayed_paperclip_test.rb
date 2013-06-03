@@ -154,7 +154,7 @@ module BaseDelayedPaperclipTest
   end
 
   def test_after_callback_is_functional
-    Dummy.send(:define_method, :done_processing) { debugger; puts 'done' }
+    Dummy.send(:define_method, :done_processing) { puts 'done' }
     Dummy.after_image_post_process :done_processing
     Dummy.any_instance.expects(:done_processing)
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
