@@ -49,7 +49,6 @@ module DelayedPaperclip
       include InstanceMethods
 
       attachment_definitions[name][:delayed] = {}
-
       {
         :priority => 0,
         :only_process => attachment_definitions[name][:only_process],
@@ -57,11 +56,8 @@ module DelayedPaperclip
         :processing_image_url => options[:processing_image_url]
       }.each do |option, default|
 
-        attachment_definitions[name][:delayed][option] = if options.key?(option)
-          options[option].respond_to?(:call) ? options[option].call : options[option]
-        else
-          default
-        end
+        attachment_definitions[name][:delayed][option] = options.key?(option) ? options[option] : default
+
       end
 
       if respond_to?(:after_commit)

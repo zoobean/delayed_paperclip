@@ -43,6 +43,12 @@ module DelayedPaperclip
         self.job_is_processing = false
       end
 
+      def processing_image_url
+        processing_image_url = @options[:delayed][:processing_image_url]
+        processing_image_url = processing_image_url.call(self) if processing_image_url.respond_to?(:call)
+        processing_image_url
+      end
+
 
       def after_flush_writes_with_processing(*args)
         after_flush_writes_without_processing(*args)

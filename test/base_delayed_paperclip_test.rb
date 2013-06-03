@@ -209,13 +209,25 @@ module BaseDelayedPaperclipTest
     assert File.exists?("#{RAILS_ROOT}/public/system/dummies/images/000/000/001/thumbnail/12k.jpg")
   end
 
-  def test_unprocess_image_accepts_proc_for_reprocessing_url
+  def test_unprocess_image_interpolates_reprocessing_url
     reset_class "Dummy", :paperclip => { :styles => {:thumbnail => '12x12'} }
-    reset_dummy :processing_image_url => proc { "/images/:style/processing.png" }
+    reset_dummy :processing_image_url => "/images/:style/processing.png"
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
     dummy.save!
     assert dummy.image.url.starts_with?("/images/original/processing.png")
     assert dummy.image.url(:thumbnail).starts_with?("/images/thumbnail/processing.png")
+    process_jobs
+    dummy.reload
+    assert dummy.image.url.starts_with?("/system/dummies/images/000/000/001/original/12k.png")
+  end
+
+  def test_unprocess_image_accepts_proc_for_reprocessing_url
+    reset_class "Dummy", :paperclip => { :styles => {:thumbnail => '12x12'} }
+    reset_dummy :processing_image_url => lambda { |attachment| attachment.instance.reprocessing_url }
+    Dummy.send(:define_method, :reprocessing_url) { 'done' }
+    dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
+    dummy.save!
+    assert dummy.image.url.starts_with?("done")
     process_jobs
     dummy.reload
     assert dummy.image.url.starts_with?("/system/dummies/images/000/000/001/original/12k.png")
