@@ -1,7 +1,8 @@
-rvm:
-  - 1.9.2
-  - 2.0.0
-  - rbx-19mode
+matrix:
+  - rvm: 1.9.2
+  - rvm: 2.0.0
+  allow_failures:
+  - rvm: rbx-19mode
 
 services:
   - redis
