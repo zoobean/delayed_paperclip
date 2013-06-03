@@ -1,8 +1,13 @@
+language: ruby
+rvm:
+  - 1.9.2
+  - 2.0.0
+  - rbx-19mode
+  - 1.9.3
+
 matrix:
-  - rvm: 1.9.2
-  - rvm: 2.0.0
   allow_failures:
-  - rvm: rbx-19mode
+    - rvm: rbx-19mode
 
 services:
   - redis
@@ -18,3 +23,5 @@ gemfile:
   - gemfiles/rails3.gemfile
   - gemfiles/rails3_1.gemfile
   - gemfiles/rails3_2.gemfile
+
+
