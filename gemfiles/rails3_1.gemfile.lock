@@ -1,7 +1,7 @@
 PATH
-  remote: /Users/ScotterC/code/github/delayed_paperclip
+  remote: /home/jrg/code/jrgifford/delayed_paperclip
   specs:
-    delayed_paperclip (2.5.1.0)
+    delayed_paperclip (2.6.0.0)
       paperclip (>= 3.3.0)
 
 GEM
