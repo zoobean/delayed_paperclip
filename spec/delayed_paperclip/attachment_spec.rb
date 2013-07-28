@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'resque'
 
 describe DelayedPaperclip::Attachment do
 
   before :all do
+    DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
     reset_dummy
   end
 

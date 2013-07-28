@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'resque'
 
 describe DelayedPaperclip::ClassMethods do
 
   before :all do
+    DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
     reset_dummy(with_processed: false)
   end
 
