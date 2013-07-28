@@ -1,8 +1,8 @@
 language: ruby
 rvm:
   - 2.0.0
-  - rbx-19mode
   - 1.9.3
+  - rbx-19mode
 
 matrix:
   allow_failures:
@@ -13,7 +13,7 @@ services:
 
 script:
 - bundle exec rake clean test
-- bundle exec rake appraisal spec
+- bundle exec rake spec
 
 notifications:
   email:
