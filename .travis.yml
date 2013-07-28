@@ -1,6 +1,5 @@
 language: ruby
 rvm:
-  - 1.9.2
   - 2.0.0
   - rbx-19mode
   - 1.9.3
@@ -14,7 +13,7 @@ services:
 
 script:
 - bundle exec rake clean test
-- bundle exec rspec specs
+- bundle exec rake appraisal spec
 
 notifications:
   email:

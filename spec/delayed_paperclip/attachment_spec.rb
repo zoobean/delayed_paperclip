@@ -114,7 +114,7 @@ describe DelayedPaperclip::Attachment do
 
   describe "#after_flush_writes_with_processing" do
     it "updates the column to false" do
-      dummy.update_column(:image_processing, true)
+      dummy.update_attribute(:image_processing, true)
 
       dummy.image.after_flush_writes_with_processing
 
