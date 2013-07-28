@@ -5,7 +5,6 @@ require 'rails'
 require 'active_record'
 require 'rspec'
 require 'mocha/api'
-require 'debugger'
 
 require 'paperclip/railtie'
 Paperclip::Railtie.insert
