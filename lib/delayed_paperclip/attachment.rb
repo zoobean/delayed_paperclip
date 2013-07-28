@@ -12,6 +12,10 @@ module DelayedPaperclip
 
     module InstanceMethods
 
+      def delayed_options
+        @instance.class.attachment_definitions[@name][:delayed]
+      end
+
       # Attr accessor in Paperclip
       def post_processing_with_delay
         !delay_processing?
@@ -19,10 +23,6 @@ module DelayedPaperclip
 
       def post_processing_with_delay=(value)
         @post_processing_with_delay = value
-      end
-
-      def delayed_options
-        @instance.class.attachment_definitions[@name][:delayed]
       end
 
       #
@@ -53,6 +53,7 @@ module DelayedPaperclip
         processing_image_url
       end
 
+      # Updates _processing column to false
       def after_flush_writes_with_processing(*args)
         after_flush_writes_without_processing(*args)
 

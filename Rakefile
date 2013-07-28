@@ -11,7 +11,7 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
 desc 'Default: run unit tests.'
 task :default => [:clean, 'appraisal:install', :all]
 
-desc 'Test the paperclip plugin under all supported Rails versions.'
+desc 'Test the delayed paperclip plugin under all supported Rails versions.'
 task :all do |t|
   exec('rake appraisal test')
 end
@@ -33,3 +33,10 @@ Rake::TestTask.new(:test) do |t|
   t.pattern = 'test/**/*_test.rb'
   t.verbose = true
 end
+
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = 'spec/**/*_spec.rb'
+  t.ruby_opts = %w[-w]
+end
+
