@@ -1,4 +1,5 @@
 require 'uri'
+
 module DelayedPaperclip
   module UrlGenerator
     def self.included(base)

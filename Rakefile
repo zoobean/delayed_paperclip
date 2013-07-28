@@ -8,7 +8,6 @@ require 'rake/testtask'
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
 
-
 desc 'Default: run unit tests.'
 task :default => [:clean, 'appraisal:install', :all]
 
