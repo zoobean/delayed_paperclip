@@ -12,12 +12,14 @@ matrix:
 services:
   - redis
 
-script: "bundle exec rake clean test"
+script:
+- bundle exec rake clean test
+- bundle exec rspec specs
 
 notifications:
   email:
     - james@jamesrgifford.com
-
+    - scott@artsicle.com
 
 gemfile:
   - gemfiles/rails3.gemfile

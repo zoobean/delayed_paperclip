@@ -3,7 +3,6 @@ require 'uri'
 module DelayedPaperclip
   module UrlGenerator
     def self.included(base)
-      base.send :include, InstanceMethods
       base.alias_method_chain :most_appropriate_url, :processed
       base.alias_method_chain :timestamp_possible?, :processed
     end
@@ -29,7 +28,19 @@ module DelayedPaperclip
     end
 
     def delayed_default_url?
-      !(@attachment.job_is_processing || @attachment.dirty? || !@attachment.delayed_options.try(:[], :url_with_processing) || !(@attachment.instance.respond_to?(:"#{@attachment.name}_processing?") && @attachment.processing?))
+      return false if @attachment.job_is_processing
+      return false if @attachment.dirty?
+      return false if not @attachment.delayed_options.try(:[], :url_with_processing)
+      return false if not (@attachment.instance.respond_to?(:"#{@attachment.name}_processing?") && @attachment.processing?)
+      true
+
+      # OLD CRAZY CONDITIONAL
+      # !(
+      #   @attachment.job_is_processing ||
+      #   @attachment.dirty? ||
+      #   !@attachment.delayed_options.try(:[], :url_with_processing) ||
+      #   !(@attachment.instance.respond_to?(:"#{@attachment.name}_processing?") && @attachment.processing?)
+      # )
     end
   end
 
