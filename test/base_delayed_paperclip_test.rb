@@ -5,7 +5,6 @@ module BaseDelayedPaperclipTest
     reset_dummy
   end
 
-  # Base
   def test_normal_paperclip_functioning
     reset_dummy :with_processed => false
     Paperclip::Attachment.any_instance.expects(:post_process)
@@ -16,8 +15,6 @@ module BaseDelayedPaperclipTest
     assert File.exists?(dummy.image.path)
   end
 
-  # What?
-  # processing column
   def test_normal_explicit_post_processing_with_delayed_paperclip
     reset_dummy :with_processed => true
     dummy = Dummy.new(:image => File.open("#{ROOT}/test/fixtures/12k.png"))
@@ -28,7 +25,6 @@ module BaseDelayedPaperclipTest
     assert File.exists?(dummy.image.path)
   end
 
-  # Base
   def test_delayed_paperclip_functioning
     build_dummy_table(false)
     reset_class "Dummy", :with_processed => true
@@ -40,7 +36,6 @@ module BaseDelayedPaperclipTest
     assert File.exists?(dummy.image.path), "Path #{dummy.image.path} should exist"
   end
 
-  # Enqueing
   def test_enqueue_job_if_source_changed
     dummy = Dummy.new(:image => File.open("#{ROOT}/test/fixtures/12k.png"))
     dummy.image = File.open("#{RAILS_ROOT}/test/fixtures/12k.png")
@@ -49,7 +44,6 @@ module BaseDelayedPaperclipTest
     assert_equal original_job_count + 1, jobs_count
   end
 
-  # processing column
   def test_processing_column_kept_intact
     Paperclip::Attachment.any_instance.stubs(:reprocess!).raises(StandardError.new('oops'))
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
@@ -60,7 +54,6 @@ module BaseDelayedPaperclipTest
     assert dummy.reload.image_processing?
   end
 
-  # processing column
   def test_processing_true_when_new_image_added
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
     assert !dummy.image_processing?
@@ -69,7 +62,6 @@ module BaseDelayedPaperclipTest
     assert dummy.reload.image_processing?
   end
 
-  # processing column
   def test_processed_true_when_delayed_jobs_completed
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
     dummy.save!
@@ -78,7 +70,6 @@ module BaseDelayedPaperclipTest
     assert !dummy.image_processing?, "Image should no longer be processing"
   end
 
-  # missing url
   def test_unprocessed_image_returns_missing_url
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
     dummy.save!
@@ -88,7 +79,6 @@ module BaseDelayedPaperclipTest
     assert dummy.image.url.starts_with?("/system/dummies/images/000/000/001/original/12k.png")
   end
 
-  # processing url
   def test_unprocess_image_returns_reprocessing_url
     reset_dummy :processing_image_url => "/images/original/processing.png"
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
@@ -99,7 +89,6 @@ module BaseDelayedPaperclipTest
     assert dummy.image.url.starts_with?("/system/dummies/images/000/000/001/original/12k.png")
   end
 
-  # missing url
   def test_unprocessed_image_not_returning_missing_url_if_turned_of_globally
     DelayedPaperclip.options[:url_with_processing] = false
     reset_dummy :with_processed => false
@@ -111,7 +100,6 @@ module BaseDelayedPaperclipTest
     assert dummy.image.url.starts_with?("/system/dummies/images/000/000/001/original/12k.png")
   end
 
-  # missing l
   def test_unprocessed_image_not_returning_missing_url_if_turned_of_on_instance
     reset_dummy :with_processed => false, :url_with_processing => false
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
@@ -122,7 +110,6 @@ module BaseDelayedPaperclipTest
     assert dummy.image.url.starts_with?("/system/dummies/images/000/000/001/original/12k.png")
   end
 
-  # processing url
   def test_unprocessed_processing_url_when_file
     reset_dummy :with_processed => true, :processing_image_url => "processing"
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
@@ -130,7 +117,6 @@ module BaseDelayedPaperclipTest
     assert dummy.reload.image.url.starts_with?("processing")
   end
 
-  # missing url / processing url
   def test_processed_default_url_when_no_file
     reset_dummy :with_processed => true, :processing_image_url => "processing"
     dummy = Dummy.new()
@@ -138,7 +124,6 @@ module BaseDelayedPaperclipTest
     assert dummy.reload.image.url.starts_with?("/images/original/missing.png")
   end
 
-  # processing column
   def test_original_url_when_no_processing_column
     reset_dummy :with_processed => false
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
@@ -146,7 +131,6 @@ module BaseDelayedPaperclipTest
     assert dummy.reload.image.url.starts_with?("/system/dummies/images/000/000/001/original/12k.png")
   end
 
-  # what?
   def test_original_url_if_image_changed
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
     dummy.save!
@@ -157,22 +141,18 @@ module BaseDelayedPaperclipTest
     assert dummy.reload.image.url.starts_with?("/system/dummies/images/000/000/001/original/12k.png")
   end
 
-  # what?
-  # not processed?
   def test_missing_url_if_image_hasnt_changed
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
     dummy.save!
     assert_match(/images\/.*missing.*/, dummy.image.url)
   end
 
-  # Base
   def test_should_not_blow_up_if_dsl_unused
     reset_dummy :with_processed => false
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
     assert dummy.image.url
   end
 
-  # Callback
   def test_after_callback_is_functional
     Dummy.send(:define_method, :done_processing) { puts 'done' }
     Dummy.after_image_post_process :done_processing
@@ -182,7 +162,6 @@ module BaseDelayedPaperclipTest
     process_jobs
   end
 
-  # callback
   def test_delayed_paperclip_functioning_with_after_update_callback
     reset_class "Dummy", :with_processed => true, :with_after_update_callback => true
     Dummy.any_instance.expects(:reprocess)
@@ -192,7 +171,6 @@ module BaseDelayedPaperclipTest
     dummy.name = "foobar123"
   end
 
-  # only option
   def test_delayed_paperclip_functioning_with_only_process_option
     reset_class "Dummy", :with_processed => true, :only_process => [:thumbnail]
     Paperclip::Attachment.any_instance.expects(:reprocess!).with(:thumbnail)
@@ -201,7 +179,6 @@ module BaseDelayedPaperclipTest
     process_jobs
   end
 
-  # only option
   def test_delayed_paperclip_functioning_with_paperclip_only_process_option
     reset_class "Dummy", :with_processed => true, :paperclip => { :only_process => [:thumbnail] }
     Paperclip::Attachment.any_instance.expects(:reprocess!).with(:thumbnail)
@@ -210,7 +187,6 @@ module BaseDelayedPaperclipTest
     process_jobs
   end
 
-  # img format option
   def test_delayed_paperclip_should_convert_image_formats
     reset_class "Dummy", :with_processed => true, :paperclip => { :styles => {:thumbnail => ['12x12', :jpg]} }
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
@@ -220,7 +196,6 @@ module BaseDelayedPaperclipTest
     assert File.exists?("#{RAILS_ROOT}/public/system/dummies/images/000/000/001/thumbnail/12k.jpg")
   end
 
-  # without delay
   def test_delayed_paperclip_without_delay
     reset_class "Dummy", :with_processed => true, :paperclip => { :styles => {:thumbnail => ['12x12', :jpg]} }
     dummy = Dummy.new(:image => File.open("#{RAILS_ROOT}/test/fixtures/12k.png"))
@@ -234,7 +209,6 @@ module BaseDelayedPaperclipTest
     assert File.exists?("#{RAILS_ROOT}/public/system/dummies/images/000/000/001/thumbnail/12k.jpg")
   end
 
-  # interpolation, base
   def test_unprocess_image_interpolates_reprocessing_url
     reset_class "Dummy", :paperclip => { :styles => {:thumbnail => '12x12'} }
     reset_dummy :processing_image_url => "/images/:style/processing.png"
@@ -247,7 +221,6 @@ module BaseDelayedPaperclipTest
     assert dummy.image.url.starts_with?("/system/dummies/images/000/000/001/original/12k.png")
   end
 
-  # proc, reprocess url
   def test_unprocess_image_accepts_proc_for_reprocessing_url
     reset_class "Dummy", :paperclip => { :styles => {:thumbnail => '12x12'} }
     reset_dummy :processing_image_url => lambda { |attachment| attachment.instance.reprocessing_url }

@@ -35,6 +35,7 @@ module DelayedPaperclip
       true
 
       # OLD CRAZY CONDITIONAL
+      # TODO: Delete
       # !(
       #   @attachment.job_is_processing ||
       #   @attachment.dirty? ||
