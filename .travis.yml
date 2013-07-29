@@ -12,8 +12,7 @@ services:
   - redis
 
 script:
-- bundle exec rake clean test
-- bundle exec rake spec
+- bundle exec rake clean test spec
 
 notifications:
   email:
