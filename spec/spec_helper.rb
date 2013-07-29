@@ -18,6 +18,9 @@ ActiveRecord::Base.establish_connection(
   "database" => ":memory:"
 )
 
+# Path for filesystem writing
+ROOT = Pathname(File.expand_path(File.join(File.dirname(__FILE__), '..')))
+
 FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures")
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
 Paperclip.logger = ActiveRecord::Base.logger
@@ -29,6 +32,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
 end
 
+Dir["./spec/integration/examples/*.rb"].sort.each {|f| require f}
 
 # Reset table and class with image_processing column or not
 def reset_dummy(options = {})
@@ -76,6 +80,7 @@ def reset_class(class_name, options)
 
   end
 
+  Rails.stubs(:root).returns(Pathname.new(ROOT).join('spec', 'tmp'))
   klass.reset_column_information
   klass
 end

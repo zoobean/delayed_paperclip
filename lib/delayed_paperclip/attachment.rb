@@ -25,7 +25,6 @@ module DelayedPaperclip
         @post_processing_with_delay = value
       end
 
-      #
       # if nil, returns whether it has delayed options
       # if set, then it returns
       def delay_processing?
@@ -56,7 +55,6 @@ module DelayedPaperclip
       # Updates _processing column to false
       def after_flush_writes_with_processing(*args)
         after_flush_writes_without_processing(*args)
-
         # update_column is available in rails 3.1 instead we can do this to update the attribute without callbacks
 
         # instance.update_column("#{name}_processing", false) if instance.respond_to?(:"#{name}_processing?")
