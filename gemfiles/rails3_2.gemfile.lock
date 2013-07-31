@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    delayed_paperclip (2.6.0.0)
+    delayed_paperclip (2.6.1)
       paperclip (>= 3.3.0)
 
 GEM
@@ -66,9 +66,8 @@ GEM
       metaclass (~> 0.0.1)
     mono_logger (1.1.0)
     multi_json (1.7.5)
-    paperclip (3.4.2)
+    paperclip (3.5.0)
       activemodel (>= 3.0.0)
-      activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.0)
       mime-types
