@@ -47,7 +47,7 @@ describe DelayedPaperclip do
     it "returns paperclip options regardless of version" do
       Dummy.paperclip_definitions.should ==  {:image =>   { :styles => { :thumbnail => "25x25" },
                                               :delayed => { :priority => 0,
-                                                            :only_process => nil,
+                                                            :only_process => [],
                                                             :url_with_processing => true,
                                                             :processing_image_url => nil,
                                                             :queue => nil}
