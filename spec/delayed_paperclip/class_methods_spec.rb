@@ -20,7 +20,8 @@ describe DelayedPaperclip::ClassMethods do
           :priority => 0,
           :only_process => nil,
           :url_with_processing => true,
-          :processing_image_url => nil}
+          :processing_image_url => nil,
+          :queue => nil}
         }
       }
     end
@@ -36,7 +37,8 @@ describe DelayedPaperclip::ClassMethods do
             :priority => 0,
             :only_process => nil,
             :url_with_processing => true,
-            :processing_image_url => "/processing/url"}
+            :processing_image_url => "/processing/url",
+            :queue => nil}
           }
         }
       end
@@ -55,7 +57,8 @@ describe DelayedPaperclip::ClassMethods do
             :priority => 0,
             :only_process => [:small, :large],
             :url_with_processing => true,
-            :processing_image_url => nil }
+            :processing_image_url => nil,
+            :queue => nil}
           }
         }
       end

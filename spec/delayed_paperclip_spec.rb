@@ -49,7 +49,8 @@ describe DelayedPaperclip do
                                               :delayed => { :priority => 0,
                                                             :only_process => nil,
                                                             :url_with_processing => true,
-                                                            :processing_image_url => nil}
+                                                            :processing_image_url => nil,
+                                                            :queue => nil}
                                                           }
                                               }
     end
