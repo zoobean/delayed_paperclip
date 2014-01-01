@@ -13,7 +13,7 @@ module DelayedPaperclip
     module InstanceMethods
 
       def delayed_options
-        @instance.class.paperclip_definitions[@name][:delayed]
+        @instance.class.paperclip_definitions[@name][:delayed] unless @instance.class.paperclip_definitions[@name].nil?
       end
 
       # Attr accessor in Paperclip
