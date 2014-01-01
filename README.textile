@@ -1,6 +1,6 @@
 h1. Delayed::Paperclip !https://travis-ci.org/jrgifford/delayed_paperclip.png?branch=master!:https://travis-ci.org/jrgifford/delayed_paperclip "!https://codeclimate.com/github/jrgifford/delayed_paperclip.png!":https://codeclimate.com/github/jrgifford/delayed_paperclip
 
-Delayed_paperclip lets you process your "Paperclip":http://github.com/thoughtbot/paperclip attachments in a background task with "delayed_job":http://github.com/tobi/delayed_job, "Resque":http://github.com/defunkt/resque or "Sidekiq":http://github.com/mperham/sidekiq.
+Delayed_paperclip lets you process your "Paperclip":http://github.com/thoughtbot/paperclip attachments in a background task with "delayed_job":http://github.com/tobi/delayed_job, "Resque":https://github.com/resque/resque or "Sidekiq":http://github.com/mperham/sidekiq.
 
 h2. Why?
 
@@ -43,7 +43,7 @@ To select between using Resque or Delayed::Job, just install and configure your 
 
 h3. Resque
 
-Make sure that you have "Resque":http://github.com/defunkt/resque up and running.  The jobs will be dispatched to the <code>:paperclip</code> queue, so you can correctly dispatch your worker.  Configure resque and your workers exactly as you would otherwise.
+Make sure that you have "Resque":https://github.com/resque/resque up and running.  The jobs will be dispatched to the <code>:paperclip</code> queue, so you can correctly dispatch your worker.  Configure resque and your workers exactly as you would otherwise.
 
 h3. DJ
 
