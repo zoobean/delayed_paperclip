@@ -121,6 +121,13 @@ describe DelayedPaperclip::Attachment do
 
       dummy.image_processing.should be_false
     end
+
+    it "still flushes temp files" do
+      dummy.image = File.open("#{ROOT}/spec/fixtures/12k.png")
+      paths = dummy.image.queued_for_write.values.map(&:path)
+      dummy.image.after_flush_writes_with_processing
+      paths.none?{ |path| File.exists?(path) }.should be_true
+    end
   end
 
   describe "#save_with_prepare_enqueueing" do
