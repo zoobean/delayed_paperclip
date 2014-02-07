@@ -1,14 +1,36 @@
 require 'spec_helper'
 
 describe DelayedPaperclip::UrlGenerator do
-  before :all do
+  before :each do
     DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
-    reset_dummy
+    reset_dummy(dummy_options)
   end
 
   let(:dummy) { Dummy.create }
   let(:attachment) { dummy.image }
+  let(:dummy_options) { {} }
 
+  describe "for_with_processed" do
+    context "with split pcoessing" do
+      # everything in this hash is passed to delayed_paperclip, expect for the
+      # paperclip stuff
+      let(:dummy_options) { {
+        paperclip: {
+          styles: {
+            online: "400x400x",
+            background: "600x600x"
+          },
+          only_process: [:online]
+        },
+
+        only_process: [:background]
+      }}
+
+      it "returns the default_url when the style is still being processed" do
+        expect(attachment.url(:background)).to eql "/images/background/missing.png"
+      end
+    end
+  end
 
   describe "#most_appropriate_url_with_processed" do
     context "without delayed_default_url" do
@@ -17,7 +39,6 @@ describe DelayedPaperclip::UrlGenerator do
       before :each do
         subject.stubs(:delayed_default_url?).returns false
       end
-
       context "with original file name" do
         before :each do
           attachment.stubs(:original_filename).returns "blah"
@@ -121,6 +142,7 @@ describe DelayedPaperclip::UrlGenerator do
       attachment.delayed_options[:url_with_processing] = true
       attachment.instance.stubs(:respond_to?).with(:image_processing?).returns true
       attachment.stubs(:processing?).returns true
+      attachment.stubs(:processing_style?).with(anything).returns true
     end
 
     it "has all false, delayed_default_url returns true" do
@@ -166,6 +188,15 @@ describe DelayedPaperclip::UrlGenerator do
       it "returns true" do
         subject.delayed_default_url?.should be_false
       end
+    end
+
+    context "style is provided and is being processed" do
+      let(:style) { :main }
+      before :each do
+        attachment.stubs(:processing_style?).with(style).returns(true)
+      end
+
+      specify { expect(subject.delayed_default_url?(style)).to be }
     end
   end
 end

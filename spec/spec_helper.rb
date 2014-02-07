@@ -36,21 +36,23 @@ Dir["./spec/integration/examples/*.rb"].sort.each {|f| require f}
 
 # Reset table and class with image_processing column or not
 def reset_dummy(options = {})
+
   options[:with_processed] = true unless options.key?(:with_processed)
-  build_dummy_table(options[:with_processed])
+  options[:processed_column] = options[:with_processed] unless options.has_key?(:processed_column)
+  build_dummy_table(options.delete(:processed_column))
   reset_class("Dummy", options)
 end
 
 # Dummy Table for images
 # with or without image_processing column
-def build_dummy_table(with_processed)
+def build_dummy_table(with_column)
   ActiveRecord::Base.connection.create_table :dummies, :force => true do |t|
     t.string   :name
     t.string   :image_file_name
     t.string   :image_content_type
     t.integer  :image_file_size
     t.datetime :image_updated_at
-    t.boolean(:image_processing, :default => false) if with_processed
+    t.boolean(:image_processing, :default => false) if with_column
   end
 end
 

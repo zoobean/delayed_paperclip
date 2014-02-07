@@ -2,11 +2,12 @@ require 'spec_helper'
 
 describe DelayedPaperclip::Attachment do
 
-  before :all do
+  before :each do
     DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
-    reset_dummy
+    reset_dummy(dummy_options)
   end
 
+  let(:dummy_options) { {} }
   let(:dummy) { Dummy.create }
 
   describe "#delayed_options" do
@@ -20,7 +21,6 @@ describe DelayedPaperclip::Attachment do
         :queue => nil
       }
     end
-
   end
 
   describe "#post_processing_with_delay" do
@@ -51,6 +51,59 @@ describe DelayedPaperclip::Attachment do
     it "delegates to the dummy instance" do
       dummy.expects(:image_processing?)
       dummy.image.processing?
+    end
+
+    context "without a processing column" do
+      let(:dummy_options) { { with_processed: false } }
+
+      it "returns false" do
+        expect(dummy.image.processing?).to be_false
+      end
+    end
+  end
+
+  describe "processing_stye?" do
+    let(:style) { :background }
+    let(:processing_style?) { dummy.image.processing_style?(style) }
+
+    context "without a processing column" do
+      let(:dummy_options) { { with_processed: true, process_column: false } }
+
+      specify { expect(processing_style?).to be_false }
+    end
+
+    context "with a processing column" do
+      context "when not processing" do
+        before { dummy.image_processing = false }
+
+        specify { expect(processing_style?).to be_false }
+      end
+
+      context "when processing" do
+        before { dummy.image_processing = true }
+
+        context "when not split processing" do
+          specify { expect(processing_style?).to be_true }
+        end
+
+        context "when split processing" do
+          let(:dummy_options) { {
+            paperclip: {
+              styles: {
+                online: "400x400x",
+                background: "600x600x"
+              },
+              only_process: [:online]
+            },
+
+            delayed_paperclip: {
+              only_process: [:background]
+            }
+          }}
+
+          specify { expect(processing_style?).to be }
+        end
+      end
     end
   end
 
