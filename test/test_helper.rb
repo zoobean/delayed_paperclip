@@ -64,8 +64,10 @@ def reset_class(class_name, options)
   klass.class_eval do
     include Paperclip::Glue
 
-    has_attached_file  :image, options[:paperclip]
+    has_attached_file :image, options[:paperclip]
     options.delete(:paperclip)
+
+    validates_attachment :image, :content_type => { :content_type => "image/png" }
 
     process_in_background :image, options if options[:with_processed]
 
