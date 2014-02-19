@@ -5,10 +5,21 @@ module DelayedPaperclip
     def self.included(base)
       base.alias_method_chain :most_appropriate_url, :processed
       base.alias_method_chain :timestamp_possible?, :processed
+      base.alias_method_chain :for, :processed
     end
 
-    def most_appropriate_url_with_processed
-      if @attachment.original_filename.nil? || delayed_default_url?
+    def for_with_processed(style_name, options)
+      most_appropriate_url = most_appropriate_url(style_name)
+
+      escape_url_as_needed(
+        timestamp_as_needed(
+          @attachment_options[:interpolator].interpolate(most_appropriate_url, @attachment, style_name),
+          options
+      ), options)
+    end
+
+    def most_appropriate_url_with_processed(style = nil)
+      if @attachment.original_filename.nil? || delayed_default_url?(style)
         if @attachment.delayed_options.nil? || @attachment.processing_image_url.nil? || !@attachment.processing?
           default_url
         else
@@ -27,11 +38,11 @@ module DelayedPaperclip
       end
     end
 
-    def delayed_default_url?
+    def delayed_default_url?(style = nil)
       return false if @attachment.job_is_processing
       return false if @attachment.dirty?
       return false if not @attachment.delayed_options.try(:[], :url_with_processing)
-      return false if not (@attachment.instance.respond_to?(:"#{@attachment.name}_processing?") && @attachment.processing?)
+      return false if not processing?(style)
       true
 
       # OLD CRAZY CONDITIONAL
@@ -42,6 +53,13 @@ module DelayedPaperclip
       #   !@attachment.delayed_options.try(:[], :url_with_processing) ||
       #   !(@attachment.instance.respond_to?(:"#{@attachment.name}_processing?") && @attachment.processing?)
       # )
+    end
+
+    private
+    def processing?(style)
+      return true if @attachment.processing?
+
+      return @attachment.processing_style?(style) if style
     end
   end
 

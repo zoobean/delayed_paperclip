@@ -34,15 +34,22 @@ module DelayedPaperclip
           !@post_processing_with_delay
         end
       end
-      
+
       def split_processing?
-        @instance.class.paperclip_definitions[@name][:only_process] && 
-          @instance.class.paperclip_definitions[@name][:only_process] != 
-            @instance.class.paperclip_definitions[@name][:delayed][:only_process]
+        @instance.class.paperclip_definitions[@name][:only_process] &&
+          @instance.class.paperclip_definitions[@name][:only_process] !=
+            delayed_options[:only_process]
       end
 
       def processing?
-        @instance.send(:"#{@name}_processing?")
+        column_name = :"#{@name}_processing?"
+        @instance.respond_to?(column_name) && @instance.send(column_name)
+      end
+
+      def processing_style?(style)
+        return false if !processing?
+
+        !split_processing? || delayed_options[:only_process].include?(style)
       end
 
       def process_delayed!
