@@ -13,7 +13,7 @@ task :default => [:clean, 'appraisal:install', :all]
 
 desc 'Test the delayed paperclip plugin under all supported Rails versions.'
 task :all do |t|
-  exec('rake appraisal test')
+  exec('rake appraisal test spec')
 end
 
 desc 'Clean up files.'
