@@ -2,10 +2,19 @@ require 'rubygems'
 require 'test/unit'
 require 'mocha/setup'
 require 'active_record'
+require 'active_record/version'
+require 'active_support'
+require 'active_support/core_ext'
 require 'logger'
 require 'sqlite3'
-require 'paperclip/railtie'
 
+begin
+  require 'pry'
+rescue LoadError
+  # Pry is not available, just ignore.
+end
+
+require 'paperclip/railtie'
 Paperclip::Railtie.insert
 
 ROOT       = File.join(File.dirname(__FILE__), '..')

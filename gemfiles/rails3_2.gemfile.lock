@@ -153,6 +153,7 @@ DEPENDENCIES
   delayed_paperclip!
   mocha
   rails (~> 3.2.17)
+  railties
   rake
   resque
   rspec

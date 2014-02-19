@@ -15,7 +15,7 @@ describe DelayedPaperclip::Attachment do
     it "returns the specific options for delayed paperclip" do
       dummy.image.delayed_options.should == {
         :priority => 0,
-        :only_process => nil,
+        :only_process => [],
         :url_with_processing => true,
         :processing_image_url => nil,
         :queue => nil

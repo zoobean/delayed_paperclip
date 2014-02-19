@@ -1,10 +1,18 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
-require 'rails'
 require 'active_record'
+require 'active_record/version'
+require 'active_support'
+require 'active_support/core_ext'
 require 'rspec'
 require 'mocha/api'
+
+begin
+  require 'pry'
+rescue LoadError
+  # Pry is not available, just ignore.
+end
 
 require 'paperclip/railtie'
 Paperclip::Railtie.insert

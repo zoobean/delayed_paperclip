@@ -18,7 +18,7 @@ describe DelayedPaperclip::ClassMethods do
       Dummy.paperclip_definitions.should == { :image => {
         :delayed => {
           :priority => 0,
-          :only_process => nil,
+          :only_process => [],
           :url_with_processing => true,
           :processing_image_url => nil,
           :queue => nil}
@@ -35,7 +35,7 @@ describe DelayedPaperclip::ClassMethods do
         Dummy.paperclip_definitions.should == { :image => {
           :delayed => {
             :priority => 0,
-            :only_process => nil,
+            :only_process => [],
             :url_with_processing => true,
             :processing_image_url => "/processing/url",
             :queue => nil}

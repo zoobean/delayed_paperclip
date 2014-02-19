@@ -13,7 +13,7 @@ module DelayedPaperclip
     module InstanceMethods
 
       def delayed_options
-        @instance.class.paperclip_definitions[@name][:delayed] unless @instance.class.paperclip_definitions[@name].nil?
+        @options[:delayed]
       end
 
       # Attr accessor in Paperclip
@@ -36,9 +36,9 @@ module DelayedPaperclip
       end
 
       def split_processing?
-        @instance.class.paperclip_definitions[@name][:only_process] &&
-          @instance.class.paperclip_definitions[@name][:only_process] !=
-            delayed_options[:only_process]
+        options[:only_process] &&
+          options[:only_process] !=
+            options[:delayed][:only_process]
       end
 
       def processing?
