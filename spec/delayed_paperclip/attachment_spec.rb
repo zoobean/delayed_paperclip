@@ -166,20 +166,13 @@ describe DelayedPaperclip::Attachment do
     end
   end
 
-  describe "#after_flush_writes_with_processing" do
+  describe "#update_processing_column" do
     it "updates the column to false" do
       dummy.update_attribute(:image_processing, true)
 
-      dummy.image.after_flush_writes_with_processing
+      dummy.image.send(:update_processing_column)
 
       dummy.image_processing.should be_false
-    end
-
-    it "still flushes temp files" do
-      dummy.image = File.open("#{ROOT}/spec/fixtures/12k.png")
-      paths = dummy.image.queued_for_write.values.map(&:path)
-      dummy.image.after_flush_writes_with_processing
-      paths.none?{ |path| File.exists?(path) }.should be_true
     end
   end
 

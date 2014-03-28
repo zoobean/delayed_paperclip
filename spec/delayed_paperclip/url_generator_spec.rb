@@ -83,7 +83,7 @@ describe DelayedPaperclip::UrlGenerator do
 
           context "with processing_image_url" do
             before :each do
-              attachment.stubs(:processing_image_url).returns "/processing/image.jpg"\
+              attachment.stubs(:processing_image_url).returns "/processing/image.jpg"
             end
 
             context "and is processing" do
