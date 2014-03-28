@@ -55,12 +55,8 @@ describe DelayedPaperclip::InstanceMethods do
   end
 
   describe "#prepare_enqueueing_for" do
-
     it "updates processing column to true" do
-      pending
-      # TODO: Why would it be writing the attribute here as well as in mark_enqueue_delayed_processing
       dummy.image_processing.should be_false
-      dummy.expects(:write_attribute).with("image_processing", true)
       dummy.prepare_enqueueing_for("image")
       dummy.image_processing.should be_true
     end

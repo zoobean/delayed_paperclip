@@ -18,9 +18,13 @@ module DelayedPaperclip
       ), options)
     end
 
+    # This method is a mess
     def most_appropriate_url_with_processed(style = nil)
       if @attachment.original_filename.nil? || delayed_default_url?(style)
-        if @attachment.delayed_options.nil? || @attachment.processing_image_url.nil? || !@attachment.processing?
+        if @attachment.delayed_options.nil? ||
+           @attachment.processing_image_url.nil? ||
+           !@attachment.processing?
+
           default_url
         else
           @attachment.processing_image_url
@@ -44,18 +48,10 @@ module DelayedPaperclip
       return false if not @attachment.delayed_options.try(:[], :url_with_processing)
       return false if not processing?(style)
       true
-
-      # OLD CRAZY CONDITIONAL
-      # TODO: Delete
-      # !(
-      #   @attachment.job_is_processing ||
-      #   @attachment.dirty? ||
-      #   !@attachment.delayed_options.try(:[], :url_with_processing) ||
-      #   !(@attachment.instance.respond_to?(:"#{@attachment.name}_processing?") && @attachment.processing?)
-      # )
     end
 
     private
+
     def processing?(style)
       return true if @attachment.processing?
 

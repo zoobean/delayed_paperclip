@@ -7,7 +7,6 @@ module DelayedPaperclip
       base.alias_method_chain :post_processing, :delay
       base.alias_method_chain :post_processing=, :delay
       base.alias_method_chain :save, :prepare_enqueueing
-      base.alias_method_chain :after_flush_writes, :processing
     end
 
     module InstanceMethods
@@ -57,24 +56,13 @@ module DelayedPaperclip
         self.post_processing = true
         reprocess!(*delayed_options[:only_process])
         self.job_is_processing = false
+        update_processing_column
       end
 
       def processing_image_url
         processing_image_url = delayed_options[:processing_image_url]
         processing_image_url = processing_image_url.call(self) if processing_image_url.respond_to?(:call)
         processing_image_url
-      end
-
-      # Updates _processing column to false
-      def after_flush_writes_with_processing(*args)
-        after_flush_writes_without_processing(*args)
-        # update_column is available in rails 3.1 instead we can do this to update the attribute without callbacks
-
-        # instance.update_column("#{name}_processing", false) if instance.respond_to?(:"#{name}_processing?")
-        if instance.respond_to?(:"#{name}_processing?")
-          instance.send("#{name}_processing=", false)
-          instance.class.where(instance.class.primary_key => instance.id).update_all({ "#{name}_processing" => false })
-        end
       end
 
       def save_with_prepare_enqueueing
@@ -90,6 +78,15 @@ module DelayedPaperclip
       def reprocess_without_delay!(*style_args)
         @post_processing_with_delay = true
         reprocess!(*style_args)
+      end
+
+      private
+
+      def update_processing_column
+        if instance.respond_to?(:"#{name}_processing?")
+          instance.send("#{name}_processing=", false)
+          instance.class.where(instance.class.primary_key => instance.id).update_all({ "#{name}_processing" => false })
+        end
       end
 
     end

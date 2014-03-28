@@ -46,6 +46,7 @@ Dir["./spec/integration/examples/*.rb"].sort.each {|f| require f}
 def reset_dummy(options = {})
   options[:with_processed] = true unless options.key?(:with_processed)
   options[:processed_column] = options[:with_processed] unless options.has_key?(:processed_column)
+
   build_dummy_table(options.delete(:processed_column))
   reset_class("Dummy", options)
 end
@@ -76,8 +77,7 @@ def reset_class(class_name, options)
   klass.class_eval do
     include Paperclip::Glue
 
-    has_attached_file :image, options[:paperclip]
-    options.delete(:paperclip)
+    has_attached_file :image, options.delete(:paperclip)
 
     validates_attachment :image, :content_type => { :content_type => "image/png" }
 
