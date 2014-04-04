@@ -114,6 +114,16 @@ This is useful if you don't want the background job to reprocess all styles.
   end
 </code></pre>
 
+Like paperclip, you could also supply a lambda function to define only_process dynamically.
+
+<pre><code>
+  class User < ActiveRecord::Base
+    has_attached_file :avatar, :styles => { :small => "25x25#", :medium => "50x50x" }
+
+    process_in_background :avatar, :only_process => lambda { |a| a.instance.small_supported? ? [:small, :large] : [:large] }
+  end
+</code></pre>
+
 h4. Split processing
 
 You can process some styles in the foreground and some in the background by setting only_process on both has_attached_file and process_in_background.

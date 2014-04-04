@@ -51,10 +51,16 @@ module DelayedPaperclip
         !split_processing? || delayed_options[:only_process].include?(style)
       end
 
+      def delayed_only_process
+        only_process = delayed_options[:only_process].dup
+        only_process = only_process.call(self) if only_process.respond_to?(:call)
+        only_process.map(&:to_sym)
+      end
+
       def process_delayed!
         self.job_is_processing = true
         self.post_processing = true
-        reprocess!(*delayed_options[:only_process])
+        reprocess!(*delayed_only_process)
         self.job_is_processing = false
         update_processing_column
       end
