@@ -142,6 +142,26 @@ styles as arguments anymore.  It will delegate to DelayedPaperclip and reprocess
   @user.avatar.reprocess_without_delay!(:medium)
 </code></pre>
 
+h2. Defaults
+
+Global defaults for all delayed_paperclip instances in your app can be defined by changing the
+DelayedPaperclip.options Hash, this can be useful for setting a default 'processing image,' so you
+won't have to define it in every process_in_background definition.
+
+If you're using Rails you can define a Hash with default options in config/application.rb or in any
+of the config/environments/*.rb files on config.delayed_paperclip_defaults, these will get merged into
+DelayedPaperclip.options as your Rails app boots. An example:
+
+module YourApp
+  class Application < Rails::Application
+    # Other code...
+
+    config.delayed_paperclip_defaults = {
+        :url_with_processing => true,
+        :processing_image_url => 'custom_processing.png'
+    }
+  end
+end
 
 h2. What if I'm not using images?
 
