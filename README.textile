@@ -104,8 +104,12 @@ being processed.
 
 h4. Have processing? status available, but construct image URLs as if delayed_paperclip wasn't present
 
-If you define the #{attachment_name}_processing column, but set the url_with_processing option to false, this opens up other options (other than modifying the url that paperclip returns) for giving feedback to the user while the image is processing.  This is useful for advanced situations, for example when dealing
+If you define the #{attachment_name}_processing column, but set the url_with_processing option to false,
+this opens up other options (other than modifying the url that paperclip returns) for giving feedback to
+the user while the image is processing.  This is useful for advanced situations, for example when dealing
 with caching systems.
+
+Note especially the method .processing? which passes through the value of the boolean created via migration.
 
 <pre><code>
 
