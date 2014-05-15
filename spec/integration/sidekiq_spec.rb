@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sidekiq'
+require 'sidekiq/api'
 
 describe "Sidekiq" do
 
