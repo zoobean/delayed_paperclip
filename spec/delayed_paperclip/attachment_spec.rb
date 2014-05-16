@@ -107,6 +107,34 @@ describe DelayedPaperclip::Attachment do
     end
   end
 
+  describe "delayed_only_process" do
+    context "without only_process options" do
+      it "returns []" do
+        expect(dummy.image.delayed_only_process).to eq []
+      end
+    end
+
+    context "with only_process options" do
+      before :each do
+        reset_dummy(paperclip: { only_process: [:small, :large] } )
+      end
+
+      it "returns [:small, :large]" do
+        expect(dummy.image.delayed_only_process).to eq [:small, :large]
+      end
+    end
+
+    context "with only_process set with callable" do
+      before :each do
+        reset_dummy(paperclip: { only_process: lambda { |a| [:small, :large] } } )
+      end
+
+      it "returns [:small, :large]" do
+        expect(dummy.image.delayed_only_process).to eq [:small, :large]
+      end
+    end
+  end
+
   describe "process_delayed!" do
     it "sets job_is_processing to true" do
       dummy.image.expects(:job_is_processing=).with(true).once
@@ -129,6 +157,17 @@ describe DelayedPaperclip::Attachment do
     context "with only_process options" do
       before :each do
         reset_dummy(paperclip: { only_process: [:small, :large] } )
+      end
+
+      it "calls reprocess! with options" do
+        dummy.image.expects(:reprocess!).with(:small, :large)
+        dummy.image.process_delayed!
+      end
+    end
+
+    context "with only_process set with callable" do
+      before :each do
+        reset_dummy(paperclip: { only_process: lambda { |a| [:small, :large] } } )
       end
 
       it "calls reprocess! with options" do
