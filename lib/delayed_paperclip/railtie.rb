@@ -7,9 +7,13 @@ module DelayedPaperclip
 
     # On initialzation, include DelayedPaperclip
     class Railtie < Rails::Railtie
-      initializer 'delayed_paperclip.insert_into_active_record' do
+      initializer 'delayed_paperclip.insert_into_active_record' do |app|
         ActiveSupport.on_load :active_record do
           DelayedPaperclip::Railtie.insert
+        end
+
+        if app.config.respond_to?(:delayed_paperclip_defaults)
+          DelayedPaperclip.options.merge!(app.config.delayed_paperclip_defaults)
         end
       end
     end
