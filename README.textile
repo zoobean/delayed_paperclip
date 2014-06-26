@@ -191,16 +191,18 @@ If you're using Rails you can define a Hash with default options in config/appli
 of the config/environments/*.rb files on config.delayed_paperclip_defaults, these will get merged into
 DelayedPaperclip.options as your Rails app boots. An example:
 
-module YourApp
-  class Application < Rails::Application
-    # Other code...
+<pre><code>
+  module YourApp
+    class Application < Rails::Application
+      # Other code...
 
-    config.delayed_paperclip_defaults = {
-        :url_with_processing => true,
-        :processing_image_url => 'custom_processing.png'
-    }
+      config.delayed_paperclip_defaults = {
+          :url_with_processing => true,
+          :processing_image_url => 'custom_processing.png'
+      }
+    end
   end
-end
+</code></pre>
 
 h2. What if I'm not using images?
 
@@ -212,4 +214,6 @@ Yes.
 
 h2. Contributing
 
-Checkout out CONTRIBUTING for more info.
+Checkout out CONTRIBUTING.  In short, you'll need a redis server running for testing.  Run all tests with
+
+<pre><code>rake</code></pre>
