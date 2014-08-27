@@ -102,6 +102,22 @@ being processed.
 
 </code></pre>
 
+You can also define a custom logic for @processing_image_url@, for example to display the original 
+picture while specific formats are being processed.
+
+<pre><code>
+  class Item < ActiveRecord::Base
+    has_attached_file :photo
+
+    process_in_background :photo, :processing_image_url => :processing_image_fallback
+
+    def processing_image_fallback
+      options = photo.options
+      options[:interpolator].interpolate(options[:url], photo, :original)
+    end
+  end
+</code></pre>
+
 h4. Have processing? status available, but construct image URLs as if delayed_paperclip wasn't present
 
 If you define the #{attachment_name}_processing column, but set the url_with_processing option to false,
