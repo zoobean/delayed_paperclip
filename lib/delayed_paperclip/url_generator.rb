@@ -9,7 +9,7 @@ module DelayedPaperclip
     end
 
     def for_with_processed(style_name, options)
-      most_appropriate_url = most_appropriate_url(style_name)
+      most_appropriate_url = @attachment.processing_style?(style_name) ? most_appropriate_url(style_name) : most_appropriate_url_without_processed
 
       escape_url_as_needed(
         timestamp_as_needed(
