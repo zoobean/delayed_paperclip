@@ -9,3 +9,7 @@ end
 appraise "rails4" do
   gem "rails", "~> 4.0.3"
 end
+
+appraise "rails4_2" do
+  gem "rails", "~> 4.2.0.beta2"
+end

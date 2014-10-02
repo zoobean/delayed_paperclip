@@ -7,6 +7,10 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'rspec'
 require 'mocha/api'
+begin
+  require 'active_job'
+rescue LoadError
+end
 
 begin
   require 'pry'
