@@ -1,5 +1,14 @@
 require 'rubygems'
-require 'test/unit'
+
+begin
+  require 'test/unit'
+rescue
+  # we are probably Rails 4.2, so no Test::Unit here
+  # move along...
+  puts "No Test::Unit available. Skipping..."
+  exit(0)
+end
+
 require 'mocha/setup'
 require 'active_record'
 require 'active_record/version'
