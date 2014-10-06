@@ -157,5 +157,5 @@ DEPENDENCIES
   rake
   resque
   rspec (< 3.0)
-  sidekiq
+  sidekiq (< 3.0)
   sqlite3
