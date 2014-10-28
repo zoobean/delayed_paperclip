@@ -7,6 +7,10 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'rspec'
 require 'mocha/api'
+begin
+  require 'active_job'
+rescue LoadError
+end
 
 begin
   require 'pry'
@@ -19,6 +23,11 @@ Paperclip::Railtie.insert
 
 require 'delayed_paperclip/railtie'
 DelayedPaperclip::Railtie.insert
+
+# silence deprecation warnings in rails 4.2
+if ActiveRecord::Base.respond_to?(:raise_in_transactional_callbacks=)
+  ActiveRecord::Base.raise_in_transactional_callbacks = true
+end
 
 # Connect to sqlite
 ActiveRecord::Base.establish_connection(

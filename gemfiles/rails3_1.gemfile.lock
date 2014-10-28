@@ -158,6 +158,6 @@ DEPENDENCIES
   railties
   rake
   resque
-  rspec
-  sidekiq
+  rspec (< 3.0)
+  sidekiq (< 3.0)
   sqlite3

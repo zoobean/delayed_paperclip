@@ -14,12 +14,12 @@ Gem::Specification.new do |s|
   s.add_dependency 'paperclip', [">= 3.3"]
 
   s.add_development_dependency 'mocha'
-  s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec", '< 3.0'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'delayed_job'
   s.add_development_dependency 'delayed_job_active_record'
   s.add_development_dependency 'resque'
-  s.add_development_dependency 'sidekiq'
+  s.add_development_dependency 'sidekiq', '< 3.0'
   s.add_development_dependency 'appraisal'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'bundler'
