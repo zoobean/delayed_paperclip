@@ -272,6 +272,4 @@ for testing. Run all tests with
 ````
 # Rspec on all versions
 rake appraisal spec
-# Test Unit on all versions (deprecated)
-rake appraisal test
 ````

@@ -3,7 +3,6 @@ language: ruby
 rvm:
   - 2.1
   - 2.0
-  - rbx-19mode
 
 gemfile:
   - gemfiles/3.2.gemfile
@@ -12,14 +11,10 @@ gemfile:
 
 sudo: false
 
-matrix:
-  allow_failures:
-    - rvm: rbx-19mode
-
 services:
   - redis
 
-script: "bundle exec rake clean test spec"
+script: "bundle exec rake clean spec"
 
 notifications:
   email:
