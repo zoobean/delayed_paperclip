@@ -1,15 +1,19 @@
-appraise "rails3_1" do
-  gem "rails", "~> 3.1.12"
+appraise "3.2" do
+  gem "rails", "~> 3.2.15"
+  gem "delayed_paperclip", path: "../"
 end
 
-appraise "rails3_2" do
-  gem "rails", "~> 3.2.17"
+appraise "4.0" do
+  gem "rails", "~> 4.0.0"
+  gem "delayed_paperclip", path: "../"
 end
 
-appraise "rails4" do
-  gem "rails", "~> 4.0.3"
+appraise "4.1" do
+  gem "rails", "~> 4.1.0"
+  gem "delayed_paperclip", path: "../"
 end
 
-appraise "rails4_2" do
-  gem "rails", "~> 4.2.0.beta2"
+appraise "4.2" do
+  gem "rails", "~> 4.2.0"
+  gem "delayed_paperclip", path: "../"
 end
