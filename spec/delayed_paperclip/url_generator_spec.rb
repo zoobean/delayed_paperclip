@@ -11,7 +11,11 @@ describe DelayedPaperclip::UrlGenerator do
   let(:dummy_options) { {} }
 
   describe "for_with_processed" do
-    context "with split pcoessing" do
+    before do
+      attachment.stubs(:original_filename).returns "12k.png"
+    end
+
+    context "with split processing" do
       # everything in this hash is passed to delayed_paperclip, expect for the
       # paperclip stuff
       let(:dummy_options) { {
@@ -26,8 +30,32 @@ describe DelayedPaperclip::UrlGenerator do
         only_process: [:background]
       }}
 
-      it "returns the default_url when the style is still being processed" do
-        expect(attachment.url(:background)).to eql "/images/background/missing.png"
+      context "processing" do
+        before do
+          attachment.stubs(:processing?).returns true
+        end
+
+        it "returns the default_url when the style is still being processed" do
+          expect(attachment.url(:background)).to eql "/images/background/missing.png"
+        end
+
+        it "returns the attachment url when the style is not set for background processing" do
+          expect(attachment.url(:online)).to eql "/system/dummies/images/000/000/001/online/12k.png"
+        end
+      end
+
+      context "not processing" do
+        before do
+          attachment.stubs(:processing?).returns false
+        end
+
+        it "returns the attachment url even when the style is set for background processing" do
+          expect(attachment.url(:background)).to eql "/system/dummies/images/000/000/001/background/12k.png"
+        end
+
+        it "returns the generated url when the style is not set for background processing" do
+          expect(attachment.url(:online)).to eql "/system/dummies/images/000/000/001/online/12k.png"
+        end
       end
     end
   end
