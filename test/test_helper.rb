@@ -1,3 +1,7 @@
+###
+#  DEPRECATED, Don't Use
+###
+
 require 'rubygems'
 
 begin

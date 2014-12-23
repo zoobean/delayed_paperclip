@@ -1,3 +1,7 @@
+###
+#  DEPRECATED, Don't Use
+###
+
 module BaseDelayedPaperclipTest
   def setup
     super

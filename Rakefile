@@ -9,7 +9,7 @@ require 'rake/testtask'
 $LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
 
 desc 'Default: run unit tests.'
-task :default => [:clean, 'appraisal:install', :all]
+task default: [:clean, 'appraisal:install', :all]
 
 desc 'Test the delayed paperclip plugin under all supported Rails versions.'
 task :all do |t|
