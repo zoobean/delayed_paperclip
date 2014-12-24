@@ -33,9 +33,18 @@ describe DelayedPaperclip::Attachment do
       dummy.image.stubs(:delay_processing?).returns true
       dummy.image.post_processing_with_delay.should be_false
     end
+
+    context "on a non-delayed image" do
+      let(:dummy_options) { { with_processed: false } }
+
+      it "is false if delay_processing? is true" do
+        dummy.image.stubs(:delay_processing?).returns true
+        dummy.image.post_processing_with_delay.should be_false
+      end
+    end
   end
 
-  describe "delay_processing?" do
+  describe "#delay_processing?" do
     it "returns delayed_options existence if post_processing_with_delay is nil" do
       dummy.image.post_processing_with_delay = nil
       dummy.image.delay_processing?.should be_true
@@ -47,7 +56,7 @@ describe DelayedPaperclip::Attachment do
     end
   end
 
-  describe "processing?" do
+  describe "#processing?" do
     it "delegates to the dummy instance" do
       dummy.expects(:image_processing?)
       dummy.image.processing?
@@ -62,7 +71,7 @@ describe DelayedPaperclip::Attachment do
     end
   end
 
-  describe "processing_stye?" do
+  describe "#processing_style?" do
     let(:style) { :background }
     let(:processing_style?) { dummy.image.processing_style?(style) }
 
@@ -107,7 +116,7 @@ describe DelayedPaperclip::Attachment do
     end
   end
 
-  describe "delayed_only_process" do
+  describe "#delayed_only_process" do
     context "without only_process options" do
       it "returns []" do
         expect(dummy.image.delayed_only_process).to eq []
@@ -135,7 +144,7 @@ describe DelayedPaperclip::Attachment do
     end
   end
 
-  describe "process_delayed!" do
+  describe "#process_delayed!" do
     it "sets job_is_processing to true" do
       dummy.image.expects(:job_is_processing=).with(true).once
       dummy.image.expects(:job_is_processing=).with(false).once

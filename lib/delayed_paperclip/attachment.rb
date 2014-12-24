@@ -12,7 +12,7 @@ module DelayedPaperclip
     module InstanceMethods
 
       def delayed_options
-        @options[:delayed]
+        options[:delayed]
       end
 
       # Attr accessor in Paperclip
@@ -35,9 +35,8 @@ module DelayedPaperclip
       end
 
       def split_processing?
-        options[:only_process] &&
-          options[:only_process] !=
-            options[:delayed][:only_process]
+        options[:only_process] && delayed_options &&
+          options[:only_process] != delayed_options[:only_process]
       end
 
       def processing?
