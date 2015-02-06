@@ -57,6 +57,32 @@ describe DelayedPaperclip::UrlGenerator do
           expect(attachment.url(:online)).to eql "/system/dummies/images/000/000/001/online/12k.png"
         end
       end
+
+      context "should be able to escape (, ), [, and ]." do
+        def generate(expected, updated_at=nil)
+          mock_interpolator = MockInterpolator.new(result: expected)
+          options           = { interpolator: mock_interpolator }
+          url_generator     = Paperclip::UrlGenerator.new(attachment, options)
+          attachment.stubs(:updated_at).returns updated_at
+          url_generator.for(:style_name, {escape: true, timestamp: !!updated_at})
+        end
+
+
+        it "interpolates correctly without timestamp" do
+          expect(
+            "the%28expected%29result%5B%5D"
+          ).to be == generate("the(expected)result[]")
+        end
+
+        it "does not interpolate timestamp" do
+          expected = "the(expected)result[]"
+          updated_at = 1231231234
+
+          expect(
+            "the%28expected%29result%5B%5D?#{updated_at}"
+          ).to be == generate(expected, updated_at)
+        end
+      end
     end
   end
 

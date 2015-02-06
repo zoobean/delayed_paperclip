@@ -24,6 +24,8 @@ Paperclip::Railtie.insert
 require 'delayed_paperclip/railtie'
 DelayedPaperclip::Railtie.insert
 
+
+
 # silence deprecation warnings in rails 4.2
 if ActiveRecord::Base.respond_to?(:raise_in_transactional_callbacks=)
   ActiveRecord::Base.raise_in_transactional_callbacks = true
@@ -48,6 +50,10 @@ RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
 end
+
+# In order to not duplicate code directly from Paperclip's spec support
+# We're requiring the MockInterpolator object to be used
+require Gem.find_files("../spec/support/mock_interpolator").first
 
 Dir["./spec/integration/examples/*.rb"].sort.each {|f| require f}
 
