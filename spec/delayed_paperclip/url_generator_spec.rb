@@ -121,7 +121,7 @@ describe DelayedPaperclip::UrlGenerator do
 
         context "with delayed_options" do
           before :each do
-            attachment.stubs(:delayed_options).returns "something"
+            attachment.stubs(:delayed_options).returns(some: 'thing')
           end
 
           context "without processing_image_url" do
@@ -181,7 +181,7 @@ describe DelayedPaperclip::UrlGenerator do
       end
 
       it "goes up the chain" do
-        subject.expects(:timestamp_possible_without_processed?)
+        subject.class.superclass.any_instance.expects(:timestamp_possible?)
         subject.timestamp_possible?
       end
     end

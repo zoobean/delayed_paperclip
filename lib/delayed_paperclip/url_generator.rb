@@ -4,6 +4,8 @@ require 'paperclip/url_generator'
 module DelayedPaperclip
   class UrlGenerator < ::Paperclip::UrlGenerator
     def for(style_name, options)
+      most_appropriate_url = @attachment.processing_style?(style_name) ? most_appropriate_url(style_name) : most_appropriate_url()
+
       timestamp_as_needed(
         escape_url_as_needed(
           @attachment_options[:interpolator].interpolate(most_appropriate_url, @attachment, style_name),
