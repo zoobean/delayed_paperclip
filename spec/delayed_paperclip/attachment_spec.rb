@@ -96,19 +96,37 @@ describe DelayedPaperclip::Attachment do
         end
 
         context "when split processing" do
-          let(:dummy_options) { {
-            paperclip: {
-              styles: {
-                online: "400x400x",
-                background: "600x600x"
+          context "when delayed :only_process is an Array" do
+            let(:dummy_options) { {
+              paperclip: {
+                styles: {
+                  online: "400x400x",
+                  background: "600x600x"
+                },
+                only_process: [:online]
               },
-              only_process: [:online]
-            },
 
-            only_process: [:background]
-          }}
+              only_process: [:background]
+            }}
 
-          specify { expect(processing_style?).to be }
+            specify { expect(processing_style?).to be }
+          end
+
+          context "when delayed :only_process is callable" do
+            let(:dummy_options) { {
+              paperclip: {
+                styles: {
+                  online: "400x400x",
+                  background: "600x600x"
+                },
+                only_process: [:online]
+              },
+
+              only_process: lambda { |a| [:background] }
+            }}
+
+            specify { expect(processing_style?).to be }
+          end
         end
       end
     end
@@ -260,30 +278,41 @@ describe DelayedPaperclip::Attachment do
     } }
 
     context ":only_process option is set on attachment" do
+      let(:dummy_options) { {
+        paperclip: {
+          styles: paperclip_styles,
+          only_process: [:online]
+        },
+
+        only_process: delayed_only_process
+      }}
+
       context "processing different styles in background" do
-        let(:dummy_options) { {
-          paperclip: {
-            styles: paperclip_styles,
-            only_process: [:online]
-          },
+        context "when delayed :only_process is an Array" do
+          let(:delayed_only_process) { [:background] }
 
-          only_process: [:background]
-        }}
+          specify { expect(split_processing?).to be true }
+        end
 
-        specify { expect(split_processing?).to be true }
+        context "when delayed :only_process is callable" do
+          let(:delayed_only_process) { lambda { |a| [:background] } }
+
+          specify { expect(split_processing?).to be true }
+        end
       end
 
       context "processing same styles in background" do
-        let(:dummy_options) { {
-          paperclip: {
-            styles: paperclip_styles,
-            only_process: [:online]
-          },
+        context "when delayed :only_process is an Array" do
+          let(:delayed_only_process) { [:online] }
 
-          only_process: [:online]
-        }}
+          specify { expect(split_processing?).to be false }
+        end
 
-        specify { expect(split_processing?).to be false }
+        context "when delayed :only_process is callable" do
+          let(:delayed_only_process) { lambda { |a| [:online] } }
+
+          specify { expect(split_processing?).to be false }
+        end
       end
     end
 
