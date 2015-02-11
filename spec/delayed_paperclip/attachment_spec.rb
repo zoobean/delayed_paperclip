@@ -105,9 +105,7 @@ describe DelayedPaperclip::Attachment do
               only_process: [:online]
             },
 
-            delayed_paperclip: {
-              only_process: [:background]
-            }
+            only_process: [:background]
           }}
 
           specify { expect(processing_style?).to be }
