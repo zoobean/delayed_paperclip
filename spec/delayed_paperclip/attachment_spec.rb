@@ -250,4 +250,51 @@ describe DelayedPaperclip::Attachment do
       dummy.image.instance_variable_get(:@post_processing_with_delay).should == true
     end
   end
+
+  describe "#split_processing?" do
+    let(:split_processing?) { dummy.image.split_processing? }
+
+    let(:paperclip_styles) { {
+      online: "400x400x",
+      background: "600x600x"
+    } }
+
+    context ":only_process option is set on attachment" do
+      context "processing different styles in background" do
+        let(:dummy_options) { {
+          paperclip: {
+            styles: paperclip_styles,
+            only_process: [:online]
+          },
+
+          only_process: [:background]
+        }}
+
+        specify { expect(split_processing?).to be true }
+      end
+
+      context "processing same styles in background" do
+        let(:dummy_options) { {
+          paperclip: {
+            styles: paperclip_styles,
+            only_process: [:online]
+          },
+
+          only_process: [:online]
+        }}
+
+        specify { expect(split_processing?).to be false }
+      end
+    end
+
+    context ":only_process option is not set on attachment" do
+      let(:dummy_options) { {
+        paperclip: {
+          styles: paperclip_styles
+        }
+      }}
+
+      specify { expect(split_processing?).to be false }
+    end
+  end
 end
