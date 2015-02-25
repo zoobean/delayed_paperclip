@@ -120,7 +120,7 @@ images currently being processed.
 class User < ActiveRecord::Base
   has_attached_file :avatar
 
-  process_in_background :avatar, processing_image_url: "/images/original/processing.jpg"
+  process_in_background :avatar, processing_image_url: "/images/:style/processing.jpg"
 end
 
 @user = User.new(avatar: File.new(...))
