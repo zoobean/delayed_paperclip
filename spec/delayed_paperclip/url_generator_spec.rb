@@ -171,7 +171,7 @@ describe DelayedPaperclip::UrlGenerator do
       end
 
       it "is false" do
-        subject.timestamp_possible_with_processed?.should be_false
+        subject.timestamp_possible_with_processed?.should be_falsey
       end
     end
 
@@ -200,7 +200,7 @@ describe DelayedPaperclip::UrlGenerator do
     end
 
     it "has all false, delayed_default_url returns true" do
-      subject.delayed_default_url?.should be_true
+      subject.delayed_default_url?.should be_truthy
     end
 
     context "job is processing" do
@@ -209,7 +209,7 @@ describe DelayedPaperclip::UrlGenerator do
       end
 
       it "returns true" do
-        subject.delayed_default_url?.should be_false
+        subject.delayed_default_url?.should be_falsey
       end
     end
 
@@ -219,7 +219,7 @@ describe DelayedPaperclip::UrlGenerator do
       end
 
       it "returns true" do
-        subject.delayed_default_url?.should be_false
+        subject.delayed_default_url?.should be_falsey
       end
     end
 
@@ -229,7 +229,7 @@ describe DelayedPaperclip::UrlGenerator do
       end
 
       it "returns true" do
-        subject.delayed_default_url?.should be_false
+        subject.delayed_default_url?.should be_falsey
       end
     end
 
@@ -240,7 +240,7 @@ describe DelayedPaperclip::UrlGenerator do
       end
 
       it "returns true" do
-        subject.delayed_default_url?.should be_false
+        subject.delayed_default_url?.should be_falsey
       end
     end
 
