@@ -2,8 +2,11 @@ Delayed::Paperclip [![Build Status](https://travis-ci.org/jrgifford/delayed_pape
 ======================================================================================
 
 
-DelayedPaperclip lets you process your [Paperclip](http://github.com/thoughtbot/paperclip) attachments in a
-background task with [DelayedJob](https://github.com/collectiveidea/delayed_job), [Resque](https://github.com/resque/resque) or [Sidekiq](https://github.com/mperham/sidekiq).
+DelayedPaperclip lets you process your [Paperclip](http://github.com/thoughtbot/paperclip)
+attachments in a background task with
+[ActiveJob](https://github.com/rails/rails/tree/master/activejob),
+[DelayedJob](https://github.com/collectiveidea/delayed_job),
+[Resque](https://github.com/resque/resque) or [Sidekiq](https://github.com/mperham/sidekiq).
 
 Why?
 ----
@@ -60,6 +63,23 @@ configure your choice properly within your application, and
 delayed_paperclip will do the rest. It will detect which library is
 loaded and make a decision about which sort of job to enqueue at that
 time.
+
+### Active Job
+
+[Active Job](https://github.com/rails/rails/tree/master/activejob) will take
+precedence over any other installed library. Since it is installed as a
+dependency with Rails 4.2.1 this might cause some confusion, so make sure that
+Active Job is configured to use the correct queue adapter:
+
+````ruby
+module YourApp
+  class Application < Rails::Application
+    # Other code...
+
+    config.active_job.queue_adapter = :resque  # Or :delayed_job or :sidekiq
+  end
+end
+````
 
 ### Resque
 
@@ -239,7 +259,7 @@ defined by changing the DelayedPaperclip.options Hash, this can be useful for se
 If you’re using Rails you can define a Hash with default options in
 config/application.rb or in any of the config/environments/\*.rb files on `config.delayed_paperclip_defaults`, these will get merged into DelayedPaperclip.options as your Rails app boots. An example:
 
-````
+````ruby
 module YourApp
   class Application < Rails::Application
     # Other code...
