@@ -36,7 +36,7 @@ module DelayedPaperclip
 
       def split_processing?
         options[:only_process] && delayed_options &&
-          options[:only_process] != delayed_options[:only_process]
+          options[:only_process] != delayed_only_process
       end
 
       def processing?
@@ -47,7 +47,7 @@ module DelayedPaperclip
       def processing_style?(style)
         return false if !processing?
 
-        !split_processing? || delayed_options[:only_process].include?(style)
+        !split_processing? || delayed_only_process.include?(style)
       end
 
       def delayed_only_process
