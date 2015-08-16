@@ -202,7 +202,7 @@ styles.
 
 ````ruby
 class User < ActiveRecord::Base
-  has_attached_file :avatar, styles: { small: "25x25#", medium: "50x50x" }
+  has_attached_file :avatar, styles: { small: "25x25#", medium: "50x50#" }
 
   process_in_background :avatar, only_process: [:small]
 end
@@ -213,7 +213,7 @@ Like paperclip, you could also supply a lambda function to define
 
 ````ruby
 class User < ActiveRecord::Base
-  has_attached_file :avatar, styles: { small: "25x25#", medium: "50x50x" }
+  has_attached_file :avatar, styles: { small: "25x25#", medium: "50x50#" }
 
   process_in_background :avatar, only_process: lambda { |a| a.instance.small_supported? ? [:small, :large] : [:large] }
 end
@@ -227,7 +227,7 @@ by setting `only_process` on both `has_attached_file` and
 
 ````ruby
 class User < ActiveRecord::Base
-  has_attached_file :avatar, styles: { small: "25x25#", medium: "50x50x" }, only_process: [:small]
+  has_attached_file :avatar, styles: { small: "25x25#", medium: "50x50#" }, only_process: [:small]
 
   process_in_background :avatar, only_process: [:medium]
 end
@@ -241,7 +241,7 @@ reprocess all styles.
 
 ````ruby
 class User < ActiveRecord::Base
-  has_attached_file :avatar, styles: { small: "25x25#", medium: "50x50x" }
+  has_attached_file :avatar, styles: { small: "25x25#", medium: "50x50#" }
 
   process_in_background :avatar
 end
