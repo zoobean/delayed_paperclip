@@ -34,16 +34,16 @@ describe DelayedPaperclip::InstanceMethods do
 
   describe "#mark_enqueue_delayed_processing" do
     it "updates columns of _processing" do
-      dummy.image_processing.should be_false
+      dummy.image_processing.should be_falsey
       dummy.instance_variable_set(:@_enqued_for_processing_with_processing, ['image'])
       dummy.mark_enqueue_delayed_processing
-      dummy.reload.image_processing.should be_true
+      dummy.reload.image_processing.should be_truthy
     end
 
     it "does nothing if instance variable not set" do
-      dummy.image_processing.should be_false
+      dummy.image_processing.should be_falsey
       dummy.mark_enqueue_delayed_processing
-      dummy.reload.image_processing.should be_false
+      dummy.reload.image_processing.should be_falsey
     end
   end
 
@@ -56,9 +56,9 @@ describe DelayedPaperclip::InstanceMethods do
 
   describe "#prepare_enqueueing_for" do
     it "updates processing column to true" do
-      dummy.image_processing.should be_false
+      dummy.image_processing.should be_falsey
       dummy.prepare_enqueueing_for("image")
-      dummy.image_processing.should be_true
+      dummy.image_processing.should be_truthy
     end
 
     it "sets instance variables for column updating" do

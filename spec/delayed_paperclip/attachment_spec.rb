@@ -26,12 +26,12 @@ describe DelayedPaperclip::Attachment do
   describe "#post_processing_with_delay" do
     it "is true if delay_processing? is false" do
       dummy.image.stubs(:delay_processing?).returns false
-      dummy.image.post_processing_with_delay.should be_true
+      dummy.image.post_processing_with_delay.should be_truthy
     end
 
     it "is false if delay_processing? is true" do
       dummy.image.stubs(:delay_processing?).returns true
-      dummy.image.post_processing_with_delay.should be_false
+      dummy.image.post_processing_with_delay.should be_falsey
     end
 
     context "on a non-delayed image" do
@@ -39,7 +39,7 @@ describe DelayedPaperclip::Attachment do
 
       it "is false if delay_processing? is true" do
         dummy.image.stubs(:delay_processing?).returns true
-        dummy.image.post_processing_with_delay.should be_false
+        dummy.image.post_processing_with_delay.should be_falsey
       end
     end
   end
@@ -47,12 +47,12 @@ describe DelayedPaperclip::Attachment do
   describe "#delay_processing?" do
     it "returns delayed_options existence if post_processing_with_delay is nil" do
       dummy.image.post_processing_with_delay = nil
-      dummy.image.delay_processing?.should be_true
+      dummy.image.delay_processing?.should be_truthy
     end
 
     it "returns inverse of post_processing_with_delay if it's set" do
       dummy.image.post_processing_with_delay = true
-      dummy.image.delay_processing?.should be_false
+      dummy.image.delay_processing?.should be_falsey
     end
   end
 
@@ -66,7 +66,7 @@ describe DelayedPaperclip::Attachment do
       let(:dummy_options) { { with_processed: false } }
 
       it "returns false" do
-        expect(dummy.image.processing?).to be_false
+        expect(dummy.image.processing?).to be_falsey
       end
     end
   end
@@ -78,21 +78,21 @@ describe DelayedPaperclip::Attachment do
     context "without a processing column" do
       let(:dummy_options) { { with_processed: true, process_column: false } }
 
-      specify { expect(processing_style?).to be_false }
+      specify { expect(processing_style?).to be_falsey }
     end
 
     context "with a processing column" do
       context "when not processing" do
         before { dummy.image_processing = false }
 
-        specify { expect(processing_style?).to be_false }
+        specify { expect(processing_style?).to be_falsey }
       end
 
       context "when processing" do
         before { dummy.image_processing = true }
 
         context "when not split processing" do
-          specify { expect(processing_style?).to be_true }
+          specify { expect(processing_style?).to be_truthy }
         end
 
         context "when split processing" do
@@ -236,7 +236,7 @@ describe DelayedPaperclip::Attachment do
 
       dummy.image.send(:update_processing_column)
 
-      dummy.image_processing.should be_false
+      dummy.image_processing.should be_falsey
     end
   end
 
