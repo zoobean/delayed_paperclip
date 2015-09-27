@@ -51,7 +51,7 @@ module DelayedPaperclip
       end
 
       def delayed_only_process
-        only_process = delayed_options[:only_process].dup
+        only_process = delayed_options.fetch(:only_process, []).dup
         only_process = only_process.call(self) if only_process.respond_to?(:call)
         only_process.map(&:to_sym)
       end
