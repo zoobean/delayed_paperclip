@@ -4,9 +4,15 @@ module DelayedPaperclip
     def self.included(base)
       base.send :include, InstanceMethods
       base.send :attr_accessor, :job_is_processing
-      base.alias_method_chain :post_processing, :delay
-      base.alias_method_chain :post_processing=, :delay
-      base.alias_method_chain :save, :prepare_enqueueing
+
+      base.send :alias_method, :post_processing_without_delay, :post_processing
+      base.send :alias_method, :post_processing, :post_processing_with_delay
+
+      base.send :alias_method, :post_processing_without_delay=, :post_processing=
+      base.send :alias_method, :post_processing=, :post_processing_with_delay=
+
+      base.send :alias_method, :save_without_prepare_enqueueing, :save
+      base.send :alias_method, :save, :save_with_prepare_enqueueing
     end
 
     module InstanceMethods
