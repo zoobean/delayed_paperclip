@@ -176,7 +176,7 @@ shared_examples "base usage" do
     context "paperclip callback" do
       before :each do
         Dummy.send(:define_method, :done_processing) { puts 'done' }
-        Dummy.after_image_post_process :done_processing
+        Dummy.send(:after_image_post_process, :done_processing)
         Dummy.any_instance.expects(:done_processing).once
       end
 
@@ -313,4 +313,3 @@ shared_examples "base usage" do
   end
 
 end
-
