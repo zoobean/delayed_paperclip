@@ -171,7 +171,7 @@ describe DelayedPaperclip::UrlGenerator do
       end
 
       it "is false" do
-        subject.timestamp_possible?.should be_false
+        subject.timestamp_possible?.should be_falsey
       end
     end
 
