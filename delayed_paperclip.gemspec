@@ -19,13 +19,13 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'delayed_job'
   s.add_development_dependency 'delayed_job_active_record'
   s.add_development_dependency 'resque'
-  s.add_development_dependency 'sidekiq', '< 3.0'
+  s.add_development_dependency 'sidekiq', '>= 4.0'
   s.add_development_dependency 'appraisal'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'railties'
+  s.add_development_dependency 'fakeredis'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
 end
-

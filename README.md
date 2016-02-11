@@ -286,8 +286,7 @@ Yes.
 Contributing
 ------------
 
-Checkout out CONTRIBUTING. In short, you’ll need a redis server running
-for testing. Run all tests with
+Checkout out CONTRIBUTING. Run all tests with
 
 ````
 # Rspec on all versions

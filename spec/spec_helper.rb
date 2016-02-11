@@ -6,6 +6,7 @@ require 'active_record/version'
 require 'active_support'
 require 'active_support/core_ext'
 require 'rspec'
+require 'fakeredis/rspec'
 require 'mocha/api'
 begin
   require 'active_job'
