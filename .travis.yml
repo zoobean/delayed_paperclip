@@ -14,9 +14,6 @@ gemfile:
 
 sudo: false
 
-services:
-  - redis
-
 script: "bundle exec rake clean spec"
 
 notifications:

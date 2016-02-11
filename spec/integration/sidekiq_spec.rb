@@ -1,12 +1,14 @@
 require 'spec_helper'
-require 'sidekiq/api'
+require 'sidekiq/testing'
 
 describe "Sidekiq" do
-
   before :all do
     Sidekiq.logger.level = Logger::ERROR
     DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Sidekiq
-    Sidekiq::Queue.new(:paperclip).clear
+  end
+
+  before :each do
+    Sidekiq::Queues["paperclip"].clear
   end
 
   let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/spec/fixtures/12k.png")) }
@@ -30,19 +32,18 @@ describe "Sidekiq" do
   end
 
   def process_jobs
-    Sidekiq::Queue.new(:paperclip).each do |job|
-      worker = job.klass.constantize.new
-      args   = job.args
+    Sidekiq::Queues["paperclip"].each do |job|
+      worker = job["class"].constantize.new
+      args   = job["args"]
       begin
         worker.perform(*args)
       rescue # Assume sidekiq handle exception properly
       end
-      job.delete
     end
   end
 
   def jobs_count
-    Sidekiq::Queue.new(:paperclip).size
+    Sidekiq::Queues["paperclip"].size
   end
 
 end
