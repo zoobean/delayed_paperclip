@@ -4,6 +4,6 @@ pkg/
 public/
 Gemfile.lock
 *.gem
-./gemfiles/*.lock
+gemfiles/*.lock
 .ruby-gemset
 .ruby-version
