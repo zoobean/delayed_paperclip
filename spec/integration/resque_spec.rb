@@ -2,8 +2,7 @@ require 'spec_helper'
 require 'resque'
 
 describe "Resque" do
-
-  before :all do
+  before :each do
     DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
     Resque.remove_queue(:paperclip)
   end
@@ -36,5 +35,4 @@ describe "Resque" do
   def jobs_count
     Resque.size(:paperclip)
   end
-
 end

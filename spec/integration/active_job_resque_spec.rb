@@ -3,8 +3,7 @@ require 'resque'
 
 if defined? ActiveJob
   describe "Active Job with Resque backend" do
-
-    before :all do
+    before :each do
       DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::ActiveJob
       ActiveJob::Base.logger = nil
       ActiveJob::Base.queue_adapter = :resque
@@ -23,9 +22,7 @@ if defined? ActiveJob
     end
 
     def jobs_count
-
       Resque.size(:paperclip)
     end
-
   end
 end

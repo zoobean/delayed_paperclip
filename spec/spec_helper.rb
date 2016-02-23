@@ -48,8 +48,22 @@ Paperclip.logger = ActiveRecord::Base.logger
 RSpec.configure do |config|
   config.mock_with :mocha
 
+  config.order = :random
+
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
+
+  config.before(:each) do
+    reset_global_default_options
+  end
+end
+
+def reset_global_default_options
+  DelayedPaperclip.options.merge!({
+    :background_job_class => DelayedPaperclip::Jobs::Resque,
+    :url_with_processing  => true,
+    :processing_image_url => nil
+  })
 end
 
 # In order to not duplicate code directly from Paperclip's spec support

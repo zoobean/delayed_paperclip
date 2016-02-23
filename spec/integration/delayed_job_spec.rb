@@ -4,8 +4,7 @@ require 'delayed_job'
 Delayed::Worker.backend = :active_record
 
 describe "Delayed Job" do
-
-  before :all do
+  before :each do
     DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::DelayedJob
     build_delayed_jobs
   end

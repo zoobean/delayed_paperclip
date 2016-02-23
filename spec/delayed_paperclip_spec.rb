@@ -2,28 +2,34 @@ require 'spec_helper'
 require 'resque'
 
 describe DelayedPaperclip do
-  before :all do
+  before :each do
     reset_dummy
   end
 
-  describe ".options" do
-    it ".options returns basic options" do
-      DelayedPaperclip.options.should == {:background_job_class => DelayedPaperclip::Jobs::Resque,
-                                          :url_with_processing => true,
-                                          :processing_image_url => nil}
+  context "with Resque adapter" do
+    before :each do
+      DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
     end
-  end
 
-  describe ".processor" do
-    it ".processor returns processor" do
-      DelayedPaperclip.processor.should == DelayedPaperclip::Jobs::Resque
+    describe ".options" do
+      it ".options returns basic options" do
+        DelayedPaperclip.options.should == {:background_job_class => DelayedPaperclip::Jobs::Resque,
+                                            :url_with_processing => true,
+                                            :processing_image_url => nil}
+      end
     end
-  end
 
-  describe ".enqueue" do
-    it "delegates to processor" do
-      DelayedPaperclip::Jobs::Resque.expects(:enqueue_delayed_paperclip).with("Dummy", 1, :image)
-      DelayedPaperclip.enqueue("Dummy", 1, :image)
+    describe ".processor" do
+      it ".processor returns processor" do
+        DelayedPaperclip.processor.should == DelayedPaperclip::Jobs::Resque
+      end
+    end
+
+    describe ".enqueue" do
+      it "delegates to processor" do
+        DelayedPaperclip::Jobs::Resque.expects(:enqueue_delayed_paperclip).with("Dummy", 1, :image)
+        DelayedPaperclip.enqueue("Dummy", 1, :image)
+      end
     end
   end
 
@@ -49,7 +55,7 @@ describe DelayedPaperclip do
   end
 
   describe "paperclip definitions" do
-    before :all do
+    before :each do
       reset_dummy :paperclip => { styles: { thumbnail: "25x25"} }
     end
 
@@ -63,6 +69,5 @@ describe DelayedPaperclip do
                                                           }
                                               }
     end
-
   end
 end

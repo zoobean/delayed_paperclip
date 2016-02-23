@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe "ActiveJob inline" do
-
   if defined? ActiveJob
-    before :all do
+    before :each do
       DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::ActiveJob
+      ActiveJob::Base.queue_adapter = :inline
       ActiveJob::Base.logger = nil
     end
 

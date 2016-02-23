@@ -11,7 +11,7 @@ describe DelayedPaperclip::UrlGenerator do
   let(:dummy_options) { {} }
 
   describe "for" do
-    before do
+    before :each do
       attachment.stubs(:original_filename).returns "12k.png"
     end
 
@@ -31,7 +31,7 @@ describe DelayedPaperclip::UrlGenerator do
       }}
 
       context "processing" do
-        before do
+        before :each do
           attachment.stubs(:processing?).returns true
         end
 
@@ -45,7 +45,7 @@ describe DelayedPaperclip::UrlGenerator do
       end
 
       context "not processing" do
-        before do
+        before :each do
           attachment.stubs(:processing?).returns false
         end
 
