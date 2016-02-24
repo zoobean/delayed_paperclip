@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe DelayedPaperclip::InstanceMethods do
-
-  before :all do
+  before :each do
     DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
     reset_dummy
   end
@@ -10,7 +9,6 @@ describe DelayedPaperclip::InstanceMethods do
   let(:dummy) { Dummy.create }
 
   describe "#enqueue_delayed_processing" do
-
     it "marks enqueue_delayed_processing" do
       dummy.expects(:mark_enqueue_delayed_processing)
       dummy.enqueue_delayed_processing
@@ -29,7 +27,6 @@ describe DelayedPaperclip::InstanceMethods do
       dummy.instance_variable_get(:@_enqued_for_processing).should == []
       dummy.instance_variable_get(:@_enqued_for_processing_with_processing).should == []
     end
-
   end
 
   describe "#mark_enqueue_delayed_processing" do
@@ -71,6 +68,4 @@ describe DelayedPaperclip::InstanceMethods do
       dummy.instance_variable_get(:@_enqued_for_processing).should == ["image"]
     end
   end
-
-
 end

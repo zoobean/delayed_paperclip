@@ -2,12 +2,9 @@ require 'spec_helper'
 require 'sidekiq/testing'
 
 describe "Sidekiq" do
-  before :all do
+  before :each do
     Sidekiq.logger.level = Logger::ERROR
     DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Sidekiq
-  end
-
-  before :each do
     Sidekiq::Queues["paperclip"].clear
   end
 
@@ -45,5 +42,4 @@ describe "Sidekiq" do
   def jobs_count
     Sidekiq::Queues["paperclip"].size
   end
-
 end
