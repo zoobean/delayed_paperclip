@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'resque'
   s.add_development_dependency 'sidekiq', '>= 4.0'
   s.add_development_dependency 'appraisal'
-  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rake', '~> 10.5.0'
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'railties'
   s.add_development_dependency 'fakeredis'
