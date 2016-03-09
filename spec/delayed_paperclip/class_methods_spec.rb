@@ -19,9 +19,22 @@ describe DelayedPaperclip::ClassMethods do
           :only_process => [],
           :url_with_processing => true,
           :processing_image_url => nil,
-          :queue => nil}
+          :queue => "paperclip"}
         }
       }
+    end
+
+    it "allows to set queue name" do
+      Dummy.process_in_background(:image, :queue => "custom")
+      expect(Dummy.paperclip_definitions).to eq({ :image => {
+        :delayed => {
+          :priority => 0,
+          :only_process => [],
+          :url_with_processing => true,
+          :processing_image_url => nil,
+          :queue => "custom"}
+        }
+      })
     end
 
     context "with processing_image_url" do
@@ -36,7 +49,7 @@ describe DelayedPaperclip::ClassMethods do
             :only_process => [],
             :url_with_processing => true,
             :processing_image_url => "/processing/url",
-            :queue => nil}
+            :queue => "paperclip"}
           }
         }
       end
@@ -56,7 +69,7 @@ describe DelayedPaperclip::ClassMethods do
             :only_process => [:small, :large],
             :url_with_processing => true,
             :processing_image_url => nil,
-            :queue => nil}
+            :queue => "paperclip"}
           }
         }
       end

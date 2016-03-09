@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sidekiq/api'
+require 'sidekiq/testing'
 
 describe "ActiveJob with Sidekiq backend" do
   if defined? ActiveJob
@@ -7,9 +7,6 @@ describe "ActiveJob with Sidekiq backend" do
       DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::ActiveJob
       ActiveJob::Base.logger = nil
       ActiveJob::Base.queue_adapter = :sidekiq
-    end
-
-    before :each do
       Sidekiq::Queues["paperclip"].clear
     end
 
@@ -31,7 +28,7 @@ describe "ActiveJob with Sidekiq backend" do
     end
   end
 
-  def jobs_count
-    Sidekiq::Queues["paperclip"].size
+  def jobs_count(queue = "paperclip")
+    Sidekiq::Queues[queue].size
   end
 end

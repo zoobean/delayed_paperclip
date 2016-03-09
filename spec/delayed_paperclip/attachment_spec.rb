@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe DelayedPaperclip::Attachment do
-
   before :each do
     DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
     reset_dummy(dummy_options)
@@ -11,15 +10,14 @@ describe DelayedPaperclip::Attachment do
   let(:dummy) { Dummy.create }
 
   describe "#delayed_options" do
-
     it "returns the specific options for delayed paperclip" do
-      dummy.image.delayed_options.should == {
+      expect(dummy.image.delayed_options).to eq({
         :priority => 0,
         :only_process => [],
         :url_with_processing => true,
         :processing_image_url => nil,
-        :queue => nil
-      }
+        :queue => "paperclip"
+      })
     end
   end
 

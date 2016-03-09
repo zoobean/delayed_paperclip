@@ -1,11 +1,9 @@
 module DelayedPaperclip
   module Jobs
     class ActiveJob < ActiveJob::Base
-      queue_as :paperclip
-
       def self.enqueue_delayed_paperclip(instance_klass, instance_id, attachment_name)
-        # ActiveJob currently does not support symbol arguments
-        self.perform_later(instance_klass, instance_id, attachment_name.to_s)
+        queue_name = instance_klass.constantize.paperclip_definitions[attachment_name][:delayed][:queue]
+        set(:queue => queue_name).perform_later(instance_klass, instance_id, attachment_name.to_s)
       end
 
       def perform(instance_klass, instance_id, attachment_name)

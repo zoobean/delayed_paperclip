@@ -39,7 +39,7 @@ describe "Sidekiq" do
     end
   end
 
-  def jobs_count
-    Sidekiq::Queues["paperclip"].size
+  def jobs_count(queue = "paperclip")
+    Sidekiq::Queues[queue].size
   end
 end

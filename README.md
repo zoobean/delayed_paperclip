@@ -250,6 +250,19 @@ end
 @user.avatar.reprocess_without_delay!(:medium)
 ````
 
+#### Set queue name
+
+You can set queue name for background job. By default it's called "paperclip".
+You can set it by changing global default options or by:
+
+```
+class User < ActiveRecord::Base
+  has_attached_file :avatar
+
+  process_in_background :avatar, queue: "default"
+end
+```
+
 Defaults
 --------
 

@@ -15,7 +15,8 @@ describe DelayedPaperclip do
       it ".options returns basic options" do
         DelayedPaperclip.options.should == {:background_job_class => DelayedPaperclip::Jobs::Resque,
                                             :url_with_processing => true,
-                                            :processing_image_url => nil}
+                                            :processing_image_url => nil,
+                                            :queue => "paperclip"}
       end
     end
 
@@ -60,14 +61,14 @@ describe DelayedPaperclip do
     end
 
     it "returns paperclip options regardless of version" do
-      Dummy.paperclip_definitions.should ==  {:image =>   { :styles => { :thumbnail => "25x25" },
+      expect(Dummy.paperclip_definitions).to eq({:image =>   { :styles => { :thumbnail => "25x25" },
                                               :delayed => { :priority => 0,
                                                             :only_process => [],
                                                             :url_with_processing => true,
                                                             :processing_image_url => nil,
-                                                            :queue => nil}
+                                                            :queue => "paperclip"}
                                                           }
-                                              }
+                                              })
     end
   end
 end
