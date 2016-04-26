@@ -312,4 +312,13 @@ shared_examples "base usage" do
     end
   end
 
+  describe "queue option" do
+    it "enqueues job with given queue name" do
+      reset_dummy :queue => "custom"
+
+      expect do
+        dummy.save!
+      end.to change { jobs_count("custom") }.by(1)
+    end
+  end
 end

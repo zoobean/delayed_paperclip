@@ -23,6 +23,7 @@ describe DelayedPaperclip::InstanceMethods do
     it "clears instance variables" do
       dummy.instance_variable_set(:@_enqued_for_processing, ['foo'])
       dummy.instance_variable_set(:@_enqued_for_processing_with_processing, ['image'])
+      dummy.expects(:enqueue_post_processing_for).with('foo')
       dummy.enqueue_delayed_processing
       dummy.instance_variable_get(:@_enqued_for_processing).should == []
       dummy.instance_variable_get(:@_enqued_for_processing_with_processing).should == []

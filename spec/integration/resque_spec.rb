@@ -32,7 +32,7 @@ describe "Resque" do
     worker.process
   end
 
-  def jobs_count
-    Resque.size(:paperclip)
+  def jobs_count(queue = :paperclip)
+    Resque.size(queue)
   end
 end

@@ -33,7 +33,7 @@ describe "Delayed Job" do
     Delayed::Worker.new.work_off
   end
 
-  def jobs_count
+  def jobs_count(queue = nil)
     Delayed::Job.count
   end
 

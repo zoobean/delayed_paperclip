@@ -11,7 +11,8 @@ module DelayedPaperclip
       @options ||= {
         :background_job_class => detect_background_task,
         :url_with_processing  => true,
-        :processing_image_url => nil
+        :processing_image_url => nil,
+        :queue => "paperclip"
       }
     end
 
@@ -59,11 +60,9 @@ module DelayedPaperclip
         :only_process => only_process_default,
         :url_with_processing => DelayedPaperclip.options[:url_with_processing],
         :processing_image_url => DelayedPaperclip.options[:processing_image_url],
-        :queue => nil
+        :queue => DelayedPaperclip.options[:queue]
       }.each do |option, default|
-
         paperclip_definitions[name][:delayed][option] = options.key?(option) ? options[option] : default
-
       end
 
       # Sets callback
