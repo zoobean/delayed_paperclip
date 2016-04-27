@@ -25,10 +25,9 @@ Paperclip::Railtie.insert
 require 'delayed_paperclip/railtie'
 DelayedPaperclip::Railtie.insert
 
-
-
 # silence deprecation warnings in rails 4.2
-if ActiveRecord::Base.respond_to?(:raise_in_transactional_callbacks=)
+# in Rails 5 this setting is deprecated and has no effect
+if ActiveRecord::Base.respond_to?(:raise_in_transactional_callbacks=) && Rails::VERSION::MAJOR < 5
   ActiveRecord::Base.raise_in_transactional_callbacks = true
 end
 

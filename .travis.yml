@@ -3,9 +3,9 @@ cache: bundler
 sudo: false
 
 rvm:
-  - 2.3.0
-  - 2.2
-  - 2.1
+  - 2.3.1
+  - 2.2.5
+  - 2.1.10
   - 2.0
 
 gemfile:
@@ -13,6 +13,15 @@ gemfile:
   - gemfiles/4.0.gemfile
   - gemfiles/4.1.gemfile
   - gemfiles/4.2.gemfile
+  - gemfiles/5.0.gemfile
+
+# Rails 5.0 requires Ruby >= 2.2
+matrix:
+  exclude:
+    - rvm: 2.1.10
+      gemfile: gemfiles/5.0.gemfile
+    - rvm: 2.0
+      gemfile: gemfiles/5.0.gemfile
 
 script: "bundle exec rake clean spec"
 
