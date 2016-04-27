@@ -8,7 +8,7 @@ describe "ActiveJob inline" do
       ActiveJob::Base.logger = nil
     end
 
-    let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/spec/fixtures/12k.png")) }
+    let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/fixtures/12k.png")) }
 
     describe "perform job" do
       before :each do
@@ -17,7 +17,7 @@ describe "ActiveJob inline" do
       end
 
       it "performs a job" do
-        dummy.image = File.open("#{ROOT}/spec/fixtures/12k.png")
+        dummy.image = File.open("#{ROOT}/fixtures/12k.png")
         Paperclip::Attachment.any_instance.expects(:reprocess!)
         dummy.save!
       end

@@ -8,7 +8,7 @@ describe "Sidekiq" do
     Sidekiq::Queues["paperclip"].clear
   end
 
-  let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/spec/fixtures/12k.png")) }
+  let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/fixtures/12k.png")) }
 
   describe "integration tests" do
     include_examples "base usage"
@@ -21,7 +21,7 @@ describe "Sidekiq" do
     end
 
     it "performs a job" do
-      dummy.image = File.open("#{ROOT}/spec/fixtures/12k.png")
+      dummy.image = File.open("#{ROOT}/fixtures/12k.png")
       Paperclip::Attachment.any_instance.expects(:reprocess!)
       dummy.save!
       DelayedPaperclip::Jobs::Sidekiq.new.perform(dummy.class.name, dummy.id, :image)

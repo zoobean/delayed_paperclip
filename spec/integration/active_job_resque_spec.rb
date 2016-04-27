@@ -10,7 +10,7 @@ if defined? ActiveJob
       Resque.remove_queue(:paperclip)
     end
 
-    let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/spec/fixtures/12k.png")) }
+    let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/fixtures/12k.png")) }
 
     describe "integration tests" do
       include_examples "base usage"

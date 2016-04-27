@@ -15,7 +15,7 @@ describe "Base Delayed Paperclip Integration" do
   describe "double save" do
     before :each do
       dummy.image_processing.should be_falsey
-      dummy.image = File.open("#{ROOT}/spec/fixtures/12k.png")
+      dummy.image = File.open("#{ROOT}/fixtures/12k.png")
       dummy.save!
     end
 

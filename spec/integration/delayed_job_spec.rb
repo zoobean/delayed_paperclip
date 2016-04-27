@@ -9,7 +9,7 @@ describe "Delayed Job" do
     build_delayed_jobs
   end
 
-  let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/spec/fixtures/12k.png")) }
+  let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/fixtures/12k.png")) }
 
   describe "integration tests" do
     include_examples "base usage"
@@ -22,7 +22,7 @@ describe "Delayed Job" do
     end
 
     it "performs a job" do
-      dummy.image = File.open("#{ROOT}/spec/fixtures/12k.png")
+      dummy.image = File.open("#{ROOT}/fixtures/12k.png")
       Paperclip::Attachment.any_instance.expects(:reprocess!)
       dummy.save!
       Delayed::Job.last.payload_object.perform

@@ -7,7 +7,7 @@ describe "Resque" do
     Resque.remove_queue(:paperclip)
   end
 
-  let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/spec/fixtures/12k.png")) }
+  let(:dummy) { Dummy.new(:image => File.open("#{ROOT}/fixtures/12k.png")) }
 
   describe "integration tests" do
     include_examples "base usage"
@@ -20,7 +20,7 @@ describe "Resque" do
     end
 
     it "performs a job" do
-      dummy.image = File.open("#{ROOT}/spec/fixtures/12k.png")
+      dummy.image = File.open("#{ROOT}/fixtures/12k.png")
       Paperclip::Attachment.any_instance.expects(:reprocess!)
       dummy.save!
       DelayedPaperclip::Jobs::Resque.perform(dummy.class.name, dummy.id, :image)

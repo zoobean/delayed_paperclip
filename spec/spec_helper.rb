@@ -2,9 +2,6 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
 require 'active_record'
-require 'active_record/version'
-require 'active_support'
-require 'active_support/core_ext'
 require 'rspec'
 require 'fakeredis/rspec'
 require 'mocha/api'
@@ -38,10 +35,8 @@ ActiveRecord::Base.establish_connection(
 )
 
 # Path for filesystem writing
-ROOT = Pathname(File.expand_path(File.join(File.dirname(__FILE__), '..')))
-
-FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures")
-ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
+ROOT = Pathname.new(File.expand_path("../.", __FILE__))
+ActiveRecord::Base.logger = Logger.new(ROOT.join("tmp/debug.log"))
 Paperclip.logger = ActiveRecord::Base.logger
 
 RSpec.configure do |config|
@@ -69,7 +64,7 @@ end
 # We're requiring the MockInterpolator object to be used
 require Gem.find_files("../spec/support/mock_interpolator").first
 
-Dir["./spec/integration/examples/*.rb"].sort.each {|f| require f}
+Dir["./spec/integration/examples/*.rb"].sort.each { |f| require f }
 
 # Reset table and class with image_processing column or not
 def reset_dummy(options = {})
@@ -117,10 +112,9 @@ def reset_class(class_name, options)
     def reprocess
       image.reprocess!
     end
-
   end
 
-  Rails.stubs(:root).returns(Pathname.new(ROOT).join('spec', 'tmp'))
+  Rails.stubs(:root).returns(ROOT.join("tmp"))
   klass.reset_column_information
   klass
 end

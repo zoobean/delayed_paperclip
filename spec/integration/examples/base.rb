@@ -162,7 +162,7 @@ shared_examples "base usage" do
     context "same url if same file assigned" do
       it "falls to missing while processing" do
         dummy.save!
-        dummy.image = File.open("#{ROOT}/spec/fixtures/12k.png")
+        dummy.image = File.open("#{ROOT}/fixtures/12k.png")
         dummy.save!
         dummy.image.url.should start_with("/images/original/missing.png")
         process_jobs
