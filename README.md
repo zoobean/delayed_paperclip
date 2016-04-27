@@ -299,9 +299,16 @@ Yes.
 Contributing
 ------------
 
-Checkout out CONTRIBUTING. Run all tests with
+Checkout out [CONTRIBUTING](https://github.com/jrgifford/delayed_paperclip/blob/master/CONTRIBUTING). Run specs with:
 
 ````
 # Rspec on all versions
-rake appraisal spec
+bundle exec appraisal install
+bundle exec appraisal rake
+
+# Rspec on latest stable gems
+bundle exec rake
+
+# Rspec on specific rails version
+bundle exec appraisal 5.0 rake
 ````
