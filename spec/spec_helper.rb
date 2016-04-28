@@ -28,6 +28,9 @@ if ActiveRecord::Base.respond_to?(:raise_in_transactional_callbacks=) && Rails::
   ActiveRecord::Base.raise_in_transactional_callbacks = true
 end
 
+require "active_support/deprecation"
+ActiveSupport::Deprecation.silenced = true
+
 # Connect to sqlite
 ActiveRecord::Base.establish_connection(
   "adapter" => "sqlite3",
