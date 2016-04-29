@@ -291,6 +291,43 @@ What if I’m not using images?
 This library works no matter what kind of post-processing you are doing
 with Paperclip.
 
+Paperclip Post-processors are not working
+-----------------------------------------
+
+If you are using custom [post-processing processors](https://github.com/thoughtbot/paperclip#post-processing)
+like this: 
+
+```ruby
+# ...
+
+has_attached_file :avatar, styles: { thumb: '100x100>' },  processors: [:rotator]
+process_in_background :avatar
+
+def rotate!
+  # ...
+  avatar.reprocess! 
+  # ...
+end
+
+# ...
+```
+
+...you may encounter an issue where your post-processors are ignored 
+([more info](https://github.com/jrgifford/delayed_paperclip/issues/171)).
+In order to avoid this use `reprocess_without_delay!`
+
+```ruby
+# ...
+
+def rotate!
+  # ...
+  avatar.reprocess_without_delay! 
+  # ...
+end
+
+# ...
+```
+
 Does it work with s3?
 ---------------------
 
