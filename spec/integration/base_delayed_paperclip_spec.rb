@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Base Delayed Paperclip Integration" do
   before :each do
-    DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
+    DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::ActiveJob
     Resque.remove_queue(:paperclip)
   end
 

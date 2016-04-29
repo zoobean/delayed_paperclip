@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage    = %q{http://github.com/jrgifford/delayed_paperclip}
 
   s.add_dependency 'paperclip', [">= 3.3"]
+  s.add_dependency 'activejob', ">= 4.2"
 
   s.add_development_dependency 'mocha'
   s.add_development_dependency "rspec", '< 3.0'

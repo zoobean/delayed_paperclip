@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DelayedPaperclip::Attachment do
   before :each do
-    DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
+    DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::ActiveJob
     reset_dummy(dummy_options)
   end
 

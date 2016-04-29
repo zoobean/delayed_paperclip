@@ -8,12 +8,12 @@ describe DelayedPaperclip do
 
   context "with Resque adapter" do
     before :each do
-      DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
+      DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::ActiveJob
     end
 
     describe ".options" do
       it ".options returns basic options" do
-        DelayedPaperclip.options.should == {:background_job_class => DelayedPaperclip::Jobs::Resque,
+        DelayedPaperclip.options.should == {:background_job_class => DelayedPaperclip::Jobs::ActiveJob,
                                             :url_with_processing => true,
                                             :processing_image_url => nil,
                                             :queue => "paperclip"}
@@ -22,13 +22,13 @@ describe DelayedPaperclip do
 
     describe ".processor" do
       it ".processor returns processor" do
-        DelayedPaperclip.processor.should == DelayedPaperclip::Jobs::Resque
+        DelayedPaperclip.processor.should == DelayedPaperclip::Jobs::ActiveJob
       end
     end
 
     describe ".enqueue" do
       it "delegates to processor" do
-        DelayedPaperclip::Jobs::Resque.expects(:enqueue_delayed_paperclip).with("Dummy", 1, :image)
+        DelayedPaperclip::Jobs::ActiveJob.expects(:enqueue_delayed_paperclip).with("Dummy", 1, :image)
         DelayedPaperclip.enqueue("Dummy", 1, :image)
       end
     end

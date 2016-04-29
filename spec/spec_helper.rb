@@ -5,10 +5,8 @@ require 'active_record'
 require 'rspec'
 require 'fakeredis/rspec'
 require 'mocha/api'
-begin
-  require 'active_job'
-rescue LoadError
-end
+
+require 'active_job'
 
 begin
   require 'pry'
@@ -27,9 +25,6 @@ DelayedPaperclip::Railtie.insert
 if ActiveRecord::Base.respond_to?(:raise_in_transactional_callbacks=) && Rails::VERSION::MAJOR < 5
   ActiveRecord::Base.raise_in_transactional_callbacks = true
 end
-
-require "active_support/deprecation"
-ActiveSupport::Deprecation.silenced = true
 
 # Connect to sqlite
 ActiveRecord::Base.establish_connection(
@@ -57,7 +52,7 @@ end
 
 def reset_global_default_options
   DelayedPaperclip.options.merge!({
-    :background_job_class => DelayedPaperclip::Jobs::Resque,
+    :background_job_class => DelayedPaperclip::Jobs::ActiveJob,
     :url_with_processing  => true,
     :processing_image_url => nil
   })
