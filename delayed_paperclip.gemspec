@@ -6,10 +6,12 @@ Gem::Specification.new do |s|
   s.version     = DelayedPaperclip::VERSION
 
   s.authors     = ["Jesse Storimer", "Bert Goethals", "James Gifford", "Scott Carleton"]
-  s.summary     = %q{Process your Paperclip attachments in the background.}
-  s.description = %q{Process your Paperclip attachments in the background with DelayedJob, Resque, Sidekiq or your own processor.}
+  s.summary     = %q{Process your Paperclip attachments in the background}
+  s.description = %q{Process your Paperclip attachments in the background with ActiveJob}
   s.email       = %w{james@jamesrgifford.com scott@artsicle.com}
-  s.homepage    = %q{http://github.com/jrgifford/delayed_paperclip}
+  s.homepage    = %q{https://github.com/jrgifford/delayed_paperclip}
+
+  s.required_ruby_version = ">= 2.0.0"
 
   s.add_dependency 'paperclip', [">= 3.3"]
   s.add_dependency 'activejob', ">= 4.2"

@@ -9,13 +9,10 @@ rvm:
   - 2.0
 
 gemfile:
-  - gemfiles/3.2.gemfile
-  - gemfiles/4.0.gemfile
-  - gemfiles/4.1.gemfile
   - gemfiles/4.2.gemfile
   - gemfiles/5.0.gemfile
 
-# Rails 5.0 requires Ruby >= 2.2
+# Rails 5.0 requires Ruby >= 2.2.2
 matrix:
   exclude:
     - rvm: 2.1.10
