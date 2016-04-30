@@ -1,10 +1,9 @@
 require 'delayed_paperclip/jobs/active_job'
 require 'delayed_paperclip/attachment'
 require 'delayed_paperclip/url_generator'
-require 'delayed_paperclip/railtie'
+require 'delayed_paperclip/railtie' if defined?(Rails)
 
 module DelayedPaperclip
-
   class << self
     def options
       @options ||= {
@@ -112,6 +111,5 @@ module DelayedPaperclip
       @_enqued_for_processing ||= []
       @_enqued_for_processing << name
     end
-
   end
 end

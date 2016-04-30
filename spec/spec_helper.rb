@@ -1,12 +1,11 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
+require 'rails'
 require 'active_record'
 require 'rspec'
 require 'fakeredis/rspec'
 require 'mocha/api'
-
-require 'active_job'
 
 begin
   require 'pry'

@@ -1,3 +1,5 @@
+require "active_job"
+
 module DelayedPaperclip
   module Jobs
     class ActiveJob < ActiveJob::Base
