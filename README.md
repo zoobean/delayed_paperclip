@@ -83,6 +83,8 @@ end
 
 ### Resque
 
+Resque adapter is deprecated. Please use ActiveJob one.
+
 Make sure that you have [Resque](https://github.com/resque/resque) up and running. The jobs will be
 dispatched to the <code>:paperclip</code> queue, so you can correctly
 dispatch your worker. Configure resque and your workers exactly as you
@@ -90,9 +92,13 @@ would otherwise.
 
 ### DJ
 
+DelayedJob adapter is deprecated. Please use ActiveJob one.
+
 Just make sure that you have DJ up and running.
 
 ### Sidekiq
+
+Sidekiq adapter is deprecated. Please use ActiveJob one.
 
 Make sure that [Sidekiq](http://github.com/mperham/sidekiq) is running and listening to the
 `paperclip` queue, either by adding it to your

@@ -25,6 +25,15 @@ describe "Resque" do
       dummy.save!
       DelayedPaperclip::Jobs::Resque.perform(dummy.class.name, dummy.id, :image)
     end
+
+    it "is deprecated" do
+      ActiveSupport::Deprecation.expects(:warn)
+
+      dummy.image = File.open("#{ROOT}/fixtures/12k.png")
+      Paperclip::Attachment.any_instance.expects(:reprocess!)
+      dummy.save!
+      DelayedPaperclip::Jobs::Resque.perform(dummy.class.name, dummy.id, :image)
+    end
   end
 
   def process_jobs

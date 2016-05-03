@@ -27,6 +27,15 @@ describe "Delayed Job" do
       dummy.save!
       Delayed::Job.last.payload_object.perform
     end
+
+    it "is deprecated" do
+      ActiveSupport::Deprecation.expects(:warn)
+
+      dummy.image = File.open("#{ROOT}/fixtures/12k.png")
+      Paperclip::Attachment.any_instance.expects(:reprocess!)
+      dummy.save!
+      Delayed::Job.last.payload_object.perform
+    end
   end
 
   def process_jobs
