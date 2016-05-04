@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "DelayedJob::Job::ActiveJob" do
+RSpec.describe "DelayedJob::ProcessJob" do
   before :each do
     ActiveJob::Base.queue_adapter = :test
     ActiveJob::Base.logger = nil

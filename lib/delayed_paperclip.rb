@@ -1,4 +1,4 @@
-require 'delayed_paperclip/jobs/active_job'
+require 'delayed_paperclip/process_job'
 require 'delayed_paperclip/attachment'
 require 'delayed_paperclip/url_generator'
 require 'delayed_paperclip/railtie' if defined?(Rails)
@@ -7,7 +7,7 @@ module DelayedPaperclip
   class << self
     def options
       @options ||= {
-        :background_job_class => DelayedPaperclip::Jobs::ActiveJob,
+        :background_job_class => DelayedPaperclip::ProcessJob,
         :url_with_processing  => true,
         :processing_image_url => nil,
         :queue => "paperclip"

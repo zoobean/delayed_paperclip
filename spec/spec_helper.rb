@@ -32,8 +32,11 @@ ActiveRecord::Base.establish_connection(
 
 # Path for filesystem writing
 ROOT = Pathname.new(File.expand_path("../.", __FILE__))
-ActiveRecord::Base.logger = Logger.new(ROOT.join("tmp/debug.log"))
-Paperclip.logger = ActiveRecord::Base.logger
+
+logger = Logger.new(ROOT.join("tmp/debug.log"))
+ActiveRecord::Base.logger = logger
+ActiveJob::Base.logger = logger
+Paperclip.logger = logger
 
 RSpec.configure do |config|
   config.mock_with :mocha
@@ -50,7 +53,7 @@ end
 
 def reset_global_default_options
   DelayedPaperclip.options.merge!({
-    :background_job_class => DelayedPaperclip::Jobs::ActiveJob,
+    :background_job_class => DelayedPaperclip::ProcessJob,
     :url_with_processing  => true,
     :processing_image_url => nil
   })

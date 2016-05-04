@@ -7,7 +7,7 @@ describe DelayedPaperclip do
 
   describe ".options" do
     it ".options returns basic options" do
-      DelayedPaperclip.options.should == {:background_job_class => DelayedPaperclip::Jobs::ActiveJob,
+      DelayedPaperclip.options.should == {:background_job_class => DelayedPaperclip::ProcessJob,
                                           :url_with_processing => true,
                                           :processing_image_url => nil,
                                           :queue => "paperclip"}
@@ -16,13 +16,13 @@ describe DelayedPaperclip do
 
   describe ".processor" do
     it ".processor returns processor" do
-      DelayedPaperclip.processor.should == DelayedPaperclip::Jobs::ActiveJob
+      DelayedPaperclip.processor.should == DelayedPaperclip::ProcessJob
     end
   end
 
   describe ".enqueue" do
     it "delegates to processor" do
-      DelayedPaperclip::Jobs::ActiveJob.expects(:enqueue_delayed_paperclip).with("Dummy", 1, :image)
+      DelayedPaperclip::ProcessJob.expects(:enqueue_delayed_paperclip).with("Dummy", 1, :image)
       DelayedPaperclip.enqueue("Dummy", 1, :image)
     end
   end
