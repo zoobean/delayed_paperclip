@@ -4,7 +4,6 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 require 'rails'
 require 'active_record'
 require 'rspec'
-require 'fakeredis/rspec'
 require 'mocha/api'
 
 begin
