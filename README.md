@@ -242,7 +242,7 @@ end
 #### Reprocess Without Delay
 
 This is useful if you don’t want the background job. It accepts
-individual styles to. Take note, normal `reprocess!` does not accept styles as arguments anymore. It will delegate to DelayedPaperclip and
+individual styles too. Take note, normal `reprocess!` does not accept styles as arguments anymore. It will delegate to DelayedPaperclip and
 reprocess all styles.
 
 ````ruby
