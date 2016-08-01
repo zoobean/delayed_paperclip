@@ -104,14 +104,16 @@ shared_examples "base usage" do
     end
 
     context "with error" do
-      before :each do
-        Paperclip::Attachment.any_instance.stubs(:reprocess!).raises(StandardError.new('oops'))
-      end
-
       it "stays true even if errored" do
+        Paperclip::Attachment.any_instance.stubs(:reprocess!).raises(StandardError.new('oops'))
+
         dummy.save!
         dummy.image_processing?.should be_truthy
-        process_jobs
+
+        expect do
+          process_jobs
+        end.to raise_error(StandardError)
+
         dummy.image_processing?.should be_truthy
         dummy.reload.image_processing?.should be_truthy
       end

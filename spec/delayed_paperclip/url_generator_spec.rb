@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe DelayedPaperclip::UrlGenerator do
   before :each do
-    DelayedPaperclip.options[:background_job_class] = DelayedPaperclip::Jobs::Resque
     reset_dummy(dummy_options)
   end
 

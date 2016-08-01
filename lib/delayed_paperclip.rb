@@ -1,26 +1,17 @@
-require 'delayed_paperclip/jobs'
+require 'delayed_paperclip/process_job'
 require 'delayed_paperclip/attachment'
 require 'delayed_paperclip/url_generator'
-require 'delayed_paperclip/railtie'
+require 'delayed_paperclip/railtie' if defined?(Rails)
 
 module DelayedPaperclip
-
   class << self
-
     def options
       @options ||= {
-        :background_job_class => detect_background_task,
+        :background_job_class => DelayedPaperclip::ProcessJob,
         :url_with_processing  => true,
         :processing_image_url => nil,
         :queue => "paperclip"
       }
-    end
-
-    def detect_background_task
-      return DelayedPaperclip::Jobs::ActiveJob  if defined? ::ActiveJob::Base
-      return DelayedPaperclip::Jobs::DelayedJob if defined? ::Delayed::Job
-      return DelayedPaperclip::Jobs::Resque     if defined? ::Resque
-      return DelayedPaperclip::Jobs::Sidekiq    if defined? ::Sidekiq
     end
 
     def processor
@@ -120,6 +111,5 @@ module DelayedPaperclip
       @_enqued_for_processing ||= []
       @_enqued_for_processing << name
     end
-
   end
 end

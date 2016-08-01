@@ -1,14 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
+require 'rails'
 require 'active_record'
 require 'rspec'
-require 'fakeredis/rspec'
 require 'mocha/api'
-begin
-  require 'active_job'
-rescue LoadError
-end
 
 begin
   require 'pry'
@@ -28,9 +24,6 @@ if ActiveRecord::Base.respond_to?(:raise_in_transactional_callbacks=) && Rails::
   ActiveRecord::Base.raise_in_transactional_callbacks = true
 end
 
-require "active_support/deprecation"
-ActiveSupport::Deprecation.silenced = true
-
 # Connect to sqlite
 ActiveRecord::Base.establish_connection(
   "adapter" => "sqlite3",
@@ -39,8 +32,11 @@ ActiveRecord::Base.establish_connection(
 
 # Path for filesystem writing
 ROOT = Pathname.new(File.expand_path("../.", __FILE__))
-ActiveRecord::Base.logger = Logger.new(ROOT.join("tmp/debug.log"))
-Paperclip.logger = ActiveRecord::Base.logger
+
+logger = Logger.new(ROOT.join("tmp/debug.log"))
+ActiveRecord::Base.logger = logger
+ActiveJob::Base.logger = logger
+Paperclip.logger = logger
 
 RSpec.configure do |config|
   config.mock_with :mocha
@@ -57,7 +53,7 @@ end
 
 def reset_global_default_options
   DelayedPaperclip.options.merge!({
-    :background_job_class => DelayedPaperclip::Jobs::Resque,
+    :background_job_class => DelayedPaperclip::ProcessJob,
     :url_with_processing  => true,
     :processing_image_url => nil
   })
