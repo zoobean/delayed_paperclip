@@ -23,12 +23,12 @@ describe DelayedPaperclip::Attachment do
   describe "#post_processing_with_delay" do
     it "is true if delay_processing? is false" do
       dummy.image.stubs(:delay_processing?).returns false
-      dummy.image.post_processing_with_delay.should be_truthy
+      dummy.image.post_processing.should be_truthy
     end
 
     it "is false if delay_processing? is true" do
       dummy.image.stubs(:delay_processing?).returns true
-      dummy.image.post_processing_with_delay.should be_falsey
+      dummy.image.post_processing.should be_falsey
     end
 
     context "on a non-delayed image" do
@@ -36,19 +36,19 @@ describe DelayedPaperclip::Attachment do
 
       it "is false if delay_processing? is true" do
         dummy.image.stubs(:delay_processing?).returns true
-        dummy.image.post_processing_with_delay.should be_falsey
+        dummy.image.post_processing.should be_falsey
       end
     end
   end
 
   describe "#delay_processing?" do
-    it "returns delayed_options existence if post_processing_with_delay is nil" do
-      dummy.image.post_processing_with_delay = nil
+    it "returns delayed_options existence if post_processing is nil" do
+      dummy.image.post_processing = nil
       dummy.image.delay_processing?.should be_truthy
     end
 
-    it "returns inverse of post_processing_with_delay if it's set" do
-      dummy.image.post_processing_with_delay = true
+    it "returns inverse of post_processing if it's set" do
+      dummy.image.post_processing = true
       dummy.image.delay_processing?.should be_falsey
     end
   end
@@ -237,7 +237,7 @@ describe DelayedPaperclip::Attachment do
     end
   end
 
-  describe "#save_with_prepare_enqueueing" do
+  describe "#save" do
     context "delay processing and it was dirty" do
       before :each do
         dummy.image.stubs(:delay_processing?).returns true
@@ -246,14 +246,14 @@ describe DelayedPaperclip::Attachment do
 
       it "prepares the enqueing" do
         dummy.expects(:prepare_enqueueing_for).with(:image)
-        dummy.image.save_with_prepare_enqueueing
+        dummy.image.save
       end
     end
 
     context "without dirty or delay_processing" do
       it "does not prepare_enqueueing" do
         dummy.expects(:prepare_enqueueing_for).with(:image).never
-        dummy.image.save_with_prepare_enqueueing
+        dummy.image.save
       end
     end
   end
