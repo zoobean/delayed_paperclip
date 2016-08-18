@@ -32,19 +32,10 @@ describe DelayedPaperclip do
 
     it "finds dummy and calls #process_delayed!" do
       dummy_stub = stub
-      dummy_stub.expects(:where).with(id: dummy.id).returns([dummy])
+      dummy_stub.expects(:find).with(dummy.id).returns(dummy)
       Dummy.expects(:unscoped).returns(dummy_stub)
       dummy.image.expects(:process_delayed!)
       DelayedPaperclip.process_job("Dummy", dummy.id, :image)
-    end
-
-    it "doesn't find dummy and it doesn't raise any exceptions" do
-      dummy_stub = stub
-      dummy_stub.expects(:where).with(id: dummy.id).returns([])
-      Dummy.expects(:unscoped).returns(dummy_stub)
-      expect do
-        DelayedPaperclip.process_job("Dummy", dummy.id, :image)
-      end.not_to raise_exception
     end
   end
 
