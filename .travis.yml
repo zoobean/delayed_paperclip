@@ -11,6 +11,7 @@ rvm:
 gemfile:
   - gemfiles/4.2.gemfile
   - gemfiles/5.0.gemfile
+  - gemfiles/5.0_paperclip_master.gemfile
 
 # Rails 5.0 requires Ruby >= 2.2.2
 matrix:
@@ -19,6 +20,10 @@ matrix:
       gemfile: gemfiles/5.0.gemfile
     - rvm: 2.0
       gemfile: gemfiles/5.0.gemfile
+    - rvm: 2.1.10
+      gemfile: gemfiles/5.0_paperclip_master.gemfile
+    - rvm: 2.0
+      gemfile: gemfiles/5.0_paperclip_master.gemfile
     # Paperclip >= 5.0 requires Ruby 2.1
     - rvm: 2.0
       gemfile: gemfiles/4.2.gemfile

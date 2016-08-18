@@ -2,12 +2,13 @@ require 'spec_helper'
 
 describe DelayedPaperclip::UrlGenerator do
   before :each do
-    reset_dummy(dummy_options)
+    reset_dummy({})
   end
 
-  let(:dummy) { Dummy.create }
-  let(:attachment) { dummy.image }
-  let(:dummy_options) { {} }
+  def make_attachment(options = {})
+    reset_dummy(options)
+    Dummy.create.image
+  end
 
   describe "for" do
     before :each do
@@ -15,19 +16,21 @@ describe DelayedPaperclip::UrlGenerator do
     end
 
     context "with split processing" do
-      # everything in this hash is passed to delayed_paperclip, except for the
-      # paperclip stuff
-      let(:dummy_options) { {
-        paperclip: {
-          styles: {
-            online: "400x400x",
-            background: "600x600x"
-          },
-          only_process: [:online]
-        },
+      let(:attachment) do
+        make_attachment(
+          {
+            paperclip: {
+              styles: {
+                online: "400x400x",
+                background: "600x600x"
+              },
+              only_process: [:online]
+            },
 
-        only_process: [:background]
-      }}
+            only_process: [:background]
+          }
+        )
+      end
 
       context "processing" do
         before :each do
@@ -58,19 +61,30 @@ describe DelayedPaperclip::UrlGenerator do
       end
 
       context "should be able to escape (, ), [, and ]." do
-        def generate(expected, updated_at=nil)
-          mock_interpolator = MockInterpolator.new(result: expected)
-          options           = { interpolator: mock_interpolator }
-          url_generator     = Paperclip::UrlGenerator.new(attachment, options)
+        def generate(expected, updated_at = nil)
+          attachment = make_attachment(
+            {
+              paperclip: {
+                styles: {
+                  online: "400x400x",
+                  background: "600x600x"
+                },
+                only_process: [:online],
+                interpolator: MockInterpolator.new(result: expected)
+              },
+
+              only_process: [:background]
+            }
+          )
+          url_generator = DelayedPaperclip::UrlGenerator.new(attachment, {})
           attachment.stubs(:updated_at).returns updated_at
           url_generator.for(:style_name, {escape: true, timestamp: !!updated_at})
         end
 
-
         it "interpolates correctly without timestamp" do
           expect(
             "the%28expected%29result%5B%5D"
-          ).to be == generate("the(expected)result[]")
+          ).to eq(generate("the(expected)result[]"))
         end
 
         it "does not interpolate timestamp" do
@@ -79,7 +93,7 @@ describe DelayedPaperclip::UrlGenerator do
 
           expect(
             "the%28expected%29result%5B%5D?#{updated_at}"
-          ).to be == generate(expected, updated_at)
+          ).to eq(generate(expected, updated_at))
         end
       end
     end
@@ -87,18 +101,20 @@ describe DelayedPaperclip::UrlGenerator do
 
   describe "#most_appropriate_url" do
     context "without delayed_default_url" do
-      subject { DelayedPaperclip::UrlGenerator.new(attachment, {url: "/blah/url.jpg"})}
+      let(:attachment) { make_attachment(paperclip: {url: "/blah/url.jpg"}) }
+
+      subject { DelayedPaperclip::UrlGenerator.new(attachment) }
 
       before :each do
         subject.stubs(:delayed_default_url?).returns false
       end
-      context "with original file name" do
-        before :each do
-          attachment.stubs(:original_filename).returns "blah"
-        end
 
+      context "with original file name" do
         it "returns options url" do
-          subject.most_appropriate_url.should == "/blah/url.jpg"
+          attachment.stubs(:original_filename).returns "blah"
+          subjec = DelayedPaperclip::UrlGenerator.new(attachment)
+          subjec.stubs(:delayed_default_url?).returns false
+          subjec.most_appropriate_url.should == "/blah/url.jpg"
         end
       end
 
@@ -162,7 +178,8 @@ describe DelayedPaperclip::UrlGenerator do
   end
 
   describe "#timestamp_possible?" do
-    subject { DelayedPaperclip::UrlGenerator.new(attachment, {})}
+    let(:attachment) { make_attachment }
+    subject { DelayedPaperclip::UrlGenerator.new(attachment) }
 
     context "with delayed_default_url" do
       before :each do
@@ -187,7 +204,8 @@ describe DelayedPaperclip::UrlGenerator do
   end
 
   describe "#delayed_default_url?" do
-    subject { DelayedPaperclip::UrlGenerator.new(attachment, {})}
+    let(:attachment) { make_attachment }
+    subject { DelayedPaperclip::UrlGenerator.new(attachment) }
 
     before :each do
       attachment.stubs(:job_is_processing).returns false

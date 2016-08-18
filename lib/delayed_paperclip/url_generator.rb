@@ -3,9 +3,13 @@ require 'paperclip/url_generator'
 
 module DelayedPaperclip
   class UrlGenerator < ::Paperclip::UrlGenerator
+    def initialize(attachment, _compatibility = nil)
+      @attachment = attachment
+      @attachment_options = attachment.options
+    end
+
     def for(style_name, options)
       most_appropriate_url = @attachment.processing_style?(style_name) ? most_appropriate_url(style_name) : most_appropriate_url()
-
       timestamp_as_needed(
         escape_url_as_needed(
           @attachment_options[:interpolator].interpolate(most_appropriate_url, @attachment, style_name),
