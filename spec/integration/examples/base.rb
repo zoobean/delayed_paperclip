@@ -15,7 +15,7 @@ shared_examples "base usage" do
       dummy.image.delay_processing?.should be_falsey
       dummy.image.post_processing.should be_truthy
       dummy.save.should be_truthy
-      File.exists?(dummy.image.path).should be_truthy
+      File.exist?(dummy.image.path).should be_truthy
     end
 
     context "missing url" do
@@ -61,7 +61,7 @@ shared_examples "base usage" do
 
     it "writes the file" do
       dummy.save
-      File.exists?(dummy.image.path).should be_truthy
+      File.exist?(dummy.image.path).should be_truthy
     end
   end
 
@@ -82,7 +82,7 @@ shared_examples "base usage" do
 
     it "has file after save" do
       dummy.save
-      File.exists?(dummy.image.path).should be_truthy
+      File.exist?(dummy.image.path).should be_truthy
     end
 
   end
@@ -245,7 +245,7 @@ shared_examples "base usage" do
       dummy.save!
       process_jobs
       dummy.reload.image.url(:thumbnail).should start_with("/system/dummies/images/000/000/001/thumbnail/12k.jpg")
-      File.exists?(dummy.image.path).should be_truthy
+      File.exist?(dummy.image.path).should be_truthy
     end
   end
 
@@ -272,7 +272,7 @@ shared_examples "base usage" do
       existing_jobs.should == jobs_count
 
       dummy.image_processing?.should be_falsey
-      File.exists?(dummy.image.path).should be_truthy
+      File.exist?(dummy.image.path).should be_truthy
     end
 
   end
